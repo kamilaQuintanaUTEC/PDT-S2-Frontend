@@ -13,15 +13,17 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import Clases.Reclamo;
+import Controladores.ControladoModificarReclamoE;
+import Controladores.ControladorModificarReclamoA;
 import Controladores.ControladorRealizarRegistro;
 
-public class RealizarReclamo {
+public class ModificarReclamoE {
 
-	public RealizarReclamo() {
-		initialize();
+	public ModificarReclamoE(Reclamo reclamo) {
+		initialize(reclamo);
 	}
       
-	private void initialize() {
+	private void initialize(Reclamo reclamo) {
 
 		JFrame frame = new JFrame();
 		frame.setBounds(50, 100, 1100, 600);
@@ -41,6 +43,7 @@ public class RealizarReclamo {
         frame.getContentPane().add(tituloCampoLabel);
         JTextField tituloCampo = new JTextField(15); //set length of the text  
         tituloCampo.setBounds(115, 65, 130, 20);
+        tituloCampo.setText(reclamo.getTitulo());
 		frame.getContentPane().add(tituloCampo);
 		
 		JLabel nombreVMECampoLabel = new JLabel("Nombre VME");
@@ -48,6 +51,7 @@ public class RealizarReclamo {
         frame.getContentPane().add(nombreVMECampoLabel);
         JTextField nombreVMECampo = new JTextField(15); //set length of the text  
         nombreVMECampo.setBounds(360, 65, 130, 20);
+        nombreVMECampo.setText(reclamo.getNombreEventoVME());
 		frame.getContentPane().add(nombreVMECampo);
 		
 		JLabel nombreAPECampoLabel = new JLabel("Nombre APE");
@@ -55,6 +59,7 @@ public class RealizarReclamo {
         frame.getContentPane().add(nombreAPECampoLabel);
         JTextField nombreAPECampo = new JTextField(15); //set length of the text  
         nombreAPECampo.setBounds(605, 65, 130, 20);
+        nombreAPECampo.setText(reclamo.getNombreActividadAPE());
 		frame.getContentPane().add(nombreAPECampo);
 		
 		JLabel semestreCampoLabel = new JLabel("Semestre (1-8)");
@@ -62,6 +67,7 @@ public class RealizarReclamo {
         frame.getContentPane().add(semestreCampoLabel);
         JTextField semestreCampo = new JTextField(15); //set length of the text  
         semestreCampo.setBounds(850, 65, 30, 20);
+        semestreCampo.setText(String.valueOf(reclamo.getSemestre()));
 		frame.getContentPane().add(semestreCampo);
 		
 		JLabel fechaCampoLabel = new JLabel("Fecha");
@@ -70,6 +76,7 @@ public class RealizarReclamo {
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         JFormattedTextField fechaCampo = new JFormattedTextField(df); //set length of the text  
         fechaCampo.setBounds(115, 90, 130, 20);
+        fechaCampo.setText(reclamo.getFecha());
 		frame.getContentPane().add(fechaCampo);
 		
 		JLabel docenteCampoLabel = new JLabel("Docente");
@@ -77,6 +84,7 @@ public class RealizarReclamo {
         frame.getContentPane().add(docenteCampoLabel);
         JTextField docenteCampo = new JTextField(15);
         docenteCampo.setBounds(360, 90, 130, 20);
+        docenteCampo.setText(reclamo.getDocente());
 		frame.getContentPane().add(docenteCampo);
 		
 		JLabel creditosCampoLabel = new JLabel("Créditos");
@@ -84,6 +92,7 @@ public class RealizarReclamo {
         frame.getContentPane().add(creditosCampoLabel);
         JTextField creditosCampo = new JTextField(15); //set length of the text  
         creditosCampo.setBounds(605, 90, 30, 20);
+        creditosCampo.setText(String.valueOf(reclamo.getCreditos()));
 		frame.getContentPane().add(creditosCampo);
 		
 		JLabel descripcionCampoLabel = new JLabel("Descripción *");
@@ -91,9 +100,10 @@ public class RealizarReclamo {
         frame.getContentPane().add(descripcionCampoLabel);
         JTextField descripcionCampo = new JTextField(); //set length of the text  
         descripcionCampo.setBounds(15, 140, 500, 300);
+        descripcionCampo.setText(reclamo.getDescripcion());
 		frame.getContentPane().add(descripcionCampo);
         
-		JButton enviarBtn = new JButton("ENVIAR");
+		JButton enviarBtn = new JButton("MODIFICAR");
 		enviarBtn.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
 
@@ -109,8 +119,12 @@ public class RealizarReclamo {
     			if (titulo.equals("") || descripcion.equals("")) {
     				JOptionPane.showMessageDialog(null, "Completar todos los datos requeridos");
     			} else {
-    				String respuesta = ControladorRealizarRegistro.agregar(titulo,descripcion,nombreEventoVME,nombreActividadAPE,semestre,fecha,docente,creditos);
-	    	        JOptionPane.showMessageDialog(null, respuesta);
+    				boolean modificado = ControladoModificarReclamoE.modificar(titulo,descripcion,nombreEventoVME,nombreActividadAPE,semestre,fecha,docente,creditos);
+        			if (modificado) {
+        				JOptionPane.showMessageDialog(null, "Se registraron los cambios");
+        			} else {
+        				JOptionPane.showMessageDialog(null, "No se pudo registrar los cambios");
+        			};
     			};
 
     		}
@@ -121,5 +135,5 @@ public class RealizarReclamo {
 		frame.setTitle("REALIZAR UN RECLAMO");
 		frame.setVisible(true);
     };
-		
+
 }

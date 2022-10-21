@@ -15,7 +15,7 @@ public class EstudiantePrincipal {
 	private void initialize(String nombreUsuario) {
 
 		JFrame frame = new JFrame();
-		frame.setBounds(50, 100, 250, 100);
+		frame.setBounds(50, 100, 350, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		

@@ -11,9 +11,9 @@ public class ControladorLoginRegistro {
 		//IMPLEMENTAR
 		//según tipo de usuario:
 //		return "NO VALIDADO";
-//		return "ESTUDIANTE";
+		return "ESTUDIANTE";
 //		return "TUTOR";
-		return "ANALISTA";
+//		return "ANALISTA";
 	}
 	
 	public static String registro(

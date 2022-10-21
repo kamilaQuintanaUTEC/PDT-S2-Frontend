@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -29,10 +30,12 @@ public class ListarItrs {
 		
 		JPanel lista = new JPanel();
 		lista.setLayout(null);
-		lista.setBounds(15, 40, 700, 700);
+		lista.setBounds(15, 50, 700, 700);
 		frame.getContentPane().add(lista);
 		
 		LinkedList<Itr> itrs = ControladorListarItrs.getItrs();
+		
+		ButtonGroup btnGr = new ButtonGroup();
 		
 		JRadioButton activosBtn = new JRadioButton("ACTIVOS");
 		activosBtn.setActionCommand("ACTIVO");
@@ -42,6 +45,7 @@ public class ListarItrs {
 				listado(itrs, lista, activosBtn.getActionCommand());
 			}
         });
+		btnGr.add(activosBtn);
     	frame.getContentPane().add(activosBtn);
     	
 		JRadioButton eliminadosBtn = new JRadioButton("ELIMINADOS");
@@ -52,6 +56,7 @@ public class ListarItrs {
 				listado(itrs, lista, eliminadosBtn.getActionCommand());
 			}
         });
+		btnGr.add(eliminadosBtn);
     	frame.getContentPane().add(eliminadosBtn);
 
 		frame.setTitle("LISTAR ITRS");
@@ -60,6 +65,9 @@ public class ListarItrs {
 	}
 	
 	public static void listado(LinkedList<Itr> itrs, JPanel lista, String estado) {
+		
+		lista.removeAll();
+		lista.repaint();
 		
 		int y = 0;
 		
@@ -94,7 +102,8 @@ public class ListarItrs {
     	    		public void actionPerformed(ActionEvent e) {
     	    			boolean eliminado = ControladorListarItrs.eliminar(itr);
     	    			if (eliminado) {
-    	    				rerender(itrs, lista, estado);
+    	    				LinkedList<Itr> itrsNuevos = ControladorListarItrs.getItrs();
+    	    				rerender(itrsNuevos, lista, estado);
     	    			} else {
     	    				JOptionPane.showMessageDialog(null, "No se pudo eliminar");
     	    			};
@@ -118,7 +127,8 @@ public class ListarItrs {
         		public void actionPerformed(ActionEvent e) {
         			boolean agregado = ControladorListarItrs.agregar(itrCampo.getText());
 	    			if (agregado) {
-	    				rerender(itrs, lista, estado);
+	    				LinkedList<Itr> itrsNuevos = ControladorListarItrs.getItrs();
+	    				rerender(itrsNuevos, lista, estado);
 	    			} else {
 	    				JOptionPane.showMessageDialog(null, "No se pudo agregar");
 	    			};
@@ -132,8 +142,6 @@ public class ListarItrs {
 	};
 	
 	public static void rerender (LinkedList<Itr> itrs, JPanel lista, String estado) {
-		lista.removeAll();
-		lista.repaint();
 		listado(itrs, lista, estado);
 	};
 }

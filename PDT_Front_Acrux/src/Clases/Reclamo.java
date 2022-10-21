@@ -12,7 +12,28 @@ public class Reclamo {
 	private String docente;
 	private int creditos;
 	private Estado estado;
+	private String accion;
+	private String accionFec;
+	private String accionAnalista;
 	
+	public String getAccion() {
+		return accion;
+	}
+	public void setAccion(String accion) {
+		this.accion = accion;
+	}
+	public String getAccionFec() {
+		return accionFec;
+	}
+	public void setAccionFec(String accionFec) {
+		this.accionFec = accionFec;
+	}
+	public String getAccionAnalista() {
+		return accionAnalista;
+	}
+	public void setAccionAnalista(String accionAnalista) {
+		this.accionAnalista = accionAnalista;
+	}
 	public String getTitulo() {
 		return titulo;
 	}
@@ -73,9 +94,9 @@ public class Reclamo {
 	public void setEstado(Estado estado) {
 		this.estado = estado;
 	}
-	
 	public Reclamo(String titulo, String descripcion, String fechaHora, String nombreEventoVME,
-			String nombreActividadAPE, int semestre, String fecha, String docente, int creditos, Estado estado) {
+			String nombreActividadAPE, int semestre, String fecha, String docente, int creditos, Estado estado,
+			String accion, String accionFec, String accionAnalista) {
 		super();
 		this.titulo = titulo;
 		this.descripcion = descripcion;
@@ -87,14 +108,19 @@ public class Reclamo {
 		this.docente = docente;
 		this.creditos = creditos;
 		this.estado = estado;
+		this.accion = accion;
+		this.accionFec = accionFec;
+		this.accionAnalista = accionAnalista;
 	}
-	
 	@Override
 	public String toString() {
 		return "Reclamo [titulo=" + titulo + ", descripcion=" + descripcion + ", fechaHora=" + fechaHora
 				+ ", nombreEventoVME=" + nombreEventoVME + ", nombreActividadAPE=" + nombreActividadAPE + ", semestre="
 				+ semestre + ", fecha=" + fecha + ", docente=" + docente + ", creditos=" + creditos + ", estado="
-				+ estado + "]";
+				+ estado + ", accion=" + accion + ", accionFec=" + accionFec + ", accionAnalista=" + accionAnalista
+				+ "]";
 	}
+	
+
 
 }
