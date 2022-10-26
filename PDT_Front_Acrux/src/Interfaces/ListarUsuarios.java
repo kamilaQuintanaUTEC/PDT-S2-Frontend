@@ -4,11 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
 
+import javax.naming.NamingException;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
@@ -35,8 +37,14 @@ public class ListarUsuarios {
 		lista.setBounds(15, 90, 700, 700);
 		frame.getContentPane().add(lista);
 		
-		LinkedList<Usuario> usuarios = ControladorListarUsuarios.getUsuarios();
-		listado(usuarios, lista);
+		LinkedList<Usuario> usuarios;
+		try {
+			usuarios = ControladorListarUsuarios.getUsuarios();
+			listado(usuarios, lista);
+		} catch (NamingException e2) {
+			JOptionPane.showMessageDialog(null, "Error al traer los usuarios");
+			e2.printStackTrace();
+		}
 		
 		JLabel añoIngresoCampoLabel = new JLabel("Año de ingreso");
         añoIngresoCampoLabel.setBounds(15, 40, 110, 20);
@@ -71,16 +79,22 @@ public class ListarUsuarios {
         };
         
         ButtonGroup itrsBtnGr = new ButtonGroup();
-        LinkedList<String> itrs = ControladorLoginRegistro.getItrs();
-        int xi = 250;
-        for (String itr : itrs) {
-        	JRadioButton radioBtn = new JRadioButton(itr);
-        	radioBtn.setActionCommand(itr);
-        	xi += 100;
-        	radioBtn.setBounds(xi,15,100,30);
-        	itrsBtnGr.add(radioBtn);
-        	frame.getContentPane().add(radioBtn);
-        };
+        LinkedList<String> itrs;
+		try {
+			itrs = ControladorLoginRegistro.getItrs();
+			int xi = 250;
+	        for (String itr : itrs) {
+	        	JRadioButton radioBtn = new JRadioButton(itr);
+	        	radioBtn.setActionCommand(itr);
+	        	xi += 100;
+	        	radioBtn.setBounds(xi,15,100,30);
+	        	itrsBtnGr.add(radioBtn);
+	        	frame.getContentPane().add(radioBtn);
+	        };
+		} catch (NamingException e1) {
+			JOptionPane.showMessageDialog(null, "Error al traer los ITRs");
+			e1.printStackTrace();
+		}   
      
         ButtonGroup estadosBtnGr = new ButtonGroup();
         LinkedList<String> estados = ControladorListarUsuarios.getEstados();
@@ -119,12 +133,17 @@ public class ListarUsuarios {
     	        frame.remove(lista);
     	        frame.repaint();
     			
-    	        LinkedList<Usuario> usuarios = ControladorListarUsuarios.getUsuarios();
-    	        LinkedList<Usuario> usuariosFiltrados = ControladorListarUsuarios.filtrar(usuarios, tipoDeUsuario, itr, añoIngreso, estado);
-    	        
-    	        listado(usuariosFiltrados, lista);
-    	        frame.getContentPane().add(lista);
-    	        
+    	        LinkedList<Usuario> usuarios;
+				try {
+					usuarios = ControladorListarUsuarios.getUsuarios();
+					LinkedList<Usuario> usuariosFiltrados = ControladorListarUsuarios.filtrar(usuarios, tipoDeUsuario, itr, añoIngreso, estado);
+					listado(usuariosFiltrados, lista);
+	    	        frame.getContentPane().add(lista);
+				} catch (NamingException e1) {
+					JOptionPane.showMessageDialog(null, "Error al traer los usuarios");
+					e1.printStackTrace();
+				}
+
     		}
         });
 		filtrarBtn.setBounds(15, 65, 130, 20);

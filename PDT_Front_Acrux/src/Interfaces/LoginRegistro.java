@@ -2,10 +2,13 @@ package Interfaces;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 
+import javax.naming.NamingException;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
@@ -163,16 +166,22 @@ public class LoginRegistro {
 			ITRLabel.setBounds(750, 210, 30, 20);
 	        frame.getContentPane().add(ITRLabel);
 	        ButtonGroup itrsBtnGr = new ButtonGroup();
-	        LinkedList<String> itrs = ControladorLoginRegistro.getItrs();
-	        int x = 685;
-	        for (String itr : itrs) {
-	        	JRadioButton radioBtn = new JRadioButton(itr);
-	        	radioBtn.setActionCommand(itr);
-	        	x += 100;
-	        	radioBtn.setBounds(x,205,100,30);
-	        	itrsBtnGr.add(radioBtn);
-	        	frame.getContentPane().add(radioBtn);
-	        };
+	        LinkedList<String> itrs;
+			try {
+				itrs = ControladorLoginRegistro.getItrs();
+				int x = 685;
+		        for (String itr : itrs) {
+		        	JRadioButton radioBtn = new JRadioButton(itr);
+		        	radioBtn.setActionCommand(itr);
+		        	x += 100;
+		        	radioBtn.setBounds(x,205,100,30);
+		        	itrsBtnGr.add(radioBtn);
+		        	frame.getContentPane().add(radioBtn);
+		        };
+			} catch (NamingException e1) {
+				JOptionPane.showMessageDialog(null, "Error al traer los ITRs");
+				e1.printStackTrace();
+			} 
 	        
 			JLabel tipoDeUsuarioLabel = new JLabel("Tipo de usuario");
 			tipoDeUsuarioLabel.setBounds(15, 235, 100, 20);
@@ -184,7 +193,7 @@ public class LoginRegistro {
 	        	JRadioButton radioBtn = new JRadioButton(usuario);
 	        	radioBtn.setActionCommand(usuario);
 	        	xu += 250;
-	        	radioBtn.setBounds(xu,230,100,30);
+	        	radioBtn.setBounds(xu,230,120,30);
 	        	usuariosBtnGr.add(radioBtn);
 	        	frame.getContentPane().add(radioBtn);
 	        };
@@ -194,22 +203,22 @@ public class LoginRegistro {
 	        frame.getContentPane().add(añoIngresoCampoLabel);
 	        JTextField añoIngresoCampo = new JTextField(15); //set length of the text  
 	        añoIngresoCampo.setBounds(280, 260, 130, 20);
-			frame.getContentPane().add(añoIngresoCampo);
+	        frame.getContentPane().add(añoIngresoCampo);
 			
 			JLabel areaCampoLabel = new JLabel("Área");
 			areaCampoLabel.setBounds(680, 260, 50, 20);
 	        frame.getContentPane().add(areaCampoLabel);
 	        JTextField areaCampo = new JTextField(15); //set length of the text  
 	        areaCampo.setBounds(720, 260, 130, 20);
-			frame.getContentPane().add(areaCampo);
+	        frame.getContentPane().add(areaCampo);
 			
 			JLabel rolLabel = new JLabel("Rol");
 			rolLabel.setBounds(680, 285, 35, 20);
 	        frame.getContentPane().add(rolLabel);
 	        ButtonGroup rolBtnGr = new ButtonGroup();
 	        LinkedList<String> roles = new LinkedList<String>();
-	        roles.add("Encargado");
-	        roles.add("Tutor");
+	        roles.add("ENCARGADO");
+	        roles.add("TUTOR");
 	        int xr = 610;
 	        for (String rol : roles) {
 	        	JRadioButton radioBtn = new JRadioButton(rol);
@@ -240,12 +249,12 @@ public class LoginRegistro {
 		    			String tipoDeUsuario = usuariosBtnGr.getSelection().getActionCommand();
 		    			String añoIngreso = añoIngresoCampo.getText();
 		    			String area = areaCampo.getText();
-		    			String rol = usuariosBtnGr.getSelection().getActionCommand().equals("Tutor") ? rolBtnGr.getSelection().getActionCommand() : "";
+		    			String rol = usuariosBtnGr.getSelection().getActionCommand().equals("TUTOR") ? rolBtnGr.getSelection().getActionCommand() : "";
 		    			
-		    			if (primerNombre.equals("") || segundoNombre.equals("") || primerApellido.equals("") || segundoApellido.equals("") || cedula.equals("") || fecNacimiento.equals("") || emailPersonal.equals("") || emailInstitucional.equals("") || telefono.equals("") || locDepartamento.equals("") || contraseña.equals("") || contraseña.equals("") || (tipoDeUsuario.equals("Estudiante") && añoIngreso.equals("")) || (tipoDeUsuario.equals("Tutor") && area.equals(""))) {
+		    			if (primerNombre.equals("") || segundoNombre.equals("") || primerApellido.equals("") || segundoApellido.equals("") || cedula.equals("") || fecNacimiento.equals("") || emailPersonal.equals("") || emailInstitucional.equals("") || telefono.equals("") || locDepartamento.equals("") || contraseña.equals("") || contraseña.equals("") || (tipoDeUsuario.equals("ESTUDIANTE") && añoIngreso.equals("")) || (tipoDeUsuario.equals("TUTOR") && area.equals(""))) {
 		    				JOptionPane.showMessageDialog(null, "Completar todos los datos requeridos");
 		    			} else {
-		    				String respuesta = ControladorLoginRegistro.registro(primerNombre,segundoNombre,primerApellido,segundoApellido,cedula,fecNacimiento,emailPersonal,emailInstitucional,telefono,locDepartamento,contraseña,itr,tipoDeUsuario,añoIngreso,area,rol);
+		    				String respuesta = ControladorLoginRegistro.registro(primerNombre,segundoNombre,primerApellido,segundoApellido,cedula,fecNacimiento,emailPersonal,telefono,locDepartamento,emailInstitucional,contraseña,itr,tipoDeUsuario,añoIngreso,area,rol);
 			    	        JOptionPane.showMessageDialog(null, respuesta);
 		    			};
 
@@ -258,7 +267,7 @@ public class LoginRegistro {
 	    				if (usuariosBtnGr.getSelection() == null ) {
 	    					JOptionPane.showMessageDialog(null, "Seleccionar un tipo de usuario");
 	    				}
-	    				if (usuariosBtnGr.getSelection().getActionCommand().equals("Tutor") ) {
+	    				if (usuariosBtnGr.getSelection().getActionCommand().equals("TUTOR") ) {
 	    					JOptionPane.showMessageDialog(null, "Seleccionar un rol");
 	    				}
 	    			}

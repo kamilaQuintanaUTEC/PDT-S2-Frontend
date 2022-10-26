@@ -13,7 +13,7 @@ public class Usuario {
 	private String locDepartamento;
 	private String emailInstitucional;
 	private String contraseña;
-	private String itr;
+	private Itr itr;
 	private String tipoDeUsuario;
 	private String añoIngreso;
 	private String area;
@@ -22,7 +22,7 @@ public class Usuario {
 	
 	public Usuario(String primerNombre, String segundoNombre, String primerApellido, String segundoApellido,
 			String cedula, String fecNacimiento, String emailPersonal, String telefono, String locDepartamento,
-			String emailInstitucional, String contraseña, String itr, String tipoDeUsuario, String añoIngreso,
+			String emailInstitucional, String contraseña, Itr itr, String tipoDeUsuario, String añoIngreso,
 			String area, String rol, String estado) {
 		super();
 		this.primerNombre = primerNombre;
@@ -110,10 +110,10 @@ public class Usuario {
 	public void setContraseña(String contraseña) {
 		this.contraseña = contraseña;
 	}
-	public String getItr() {
+	public Itr getItr() {
 		return itr;
 	}
-	public void setItr(String itr) {
+	public void setItr(Itr itr) {
 		this.itr = itr;
 	}
 	public String getTipoDeUsuario() {

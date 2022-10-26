@@ -6,6 +6,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 
+import javax.naming.NamingException;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
@@ -119,19 +120,25 @@ public class ModificarDatosPropios {
 		ITRLabel.setBounds(505, 65, 30, 20);
         frame.getContentPane().add(ITRLabel);
         ButtonGroup itrsBtnGr = new ButtonGroup();
-        LinkedList<String> itrs = ControladorLoginRegistro.getItrs();
-        int x = 535;
-        for (String itr : itrs) {
-        	JRadioButton radioBtn = new JRadioButton(itr);
-        	radioBtn.setActionCommand(itr);
-        	radioBtn.setBounds(x,60,100,30);
-        	x += 100;
-        	itrsBtnGr.add(radioBtn);
-        	if (usuario.getItr().equals(itr)) {
-        		radioBtn.setSelected(true);
-        	};
-        	frame.getContentPane().add(radioBtn);
-        };
+        LinkedList<String> itrs;
+		try {
+			itrs = ControladorLoginRegistro.getItrs();
+	        int x = 535;
+	        for (String itr : itrs) {
+	        	JRadioButton radioBtn = new JRadioButton(itr);
+	        	radioBtn.setActionCommand(itr);
+	        	radioBtn.setBounds(x,60,100,30);
+	        	x += 100;
+	        	itrsBtnGr.add(radioBtn);
+	        	if (usuario.getItr().equals(itr)) {
+	        		radioBtn.setSelected(true);
+	        	};
+	        	frame.getContentPane().add(radioBtn);
+	        };
+		} catch (NamingException e1) {
+			JOptionPane.showMessageDialog(null, "Error al traer los ITRs");
+			e1.printStackTrace();
+		}
         
         JTextField añoIngresoCampo = new JTextField(15);
         if (usuario.getTipoDeUsuario().equals("Estudiante")) {

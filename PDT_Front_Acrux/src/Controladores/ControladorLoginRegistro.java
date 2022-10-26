@@ -1,8 +1,26 @@
 package Controladores;
 
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
+import com.entities.Analista;
+import com.entities.Estudiante;
+import com.entities.Tutor;
+import com.entities.Usuario;
+import com.exception.ServiciosException;
+import com.service.AnalistaBeanRemote;
+import com.service.EstudianteBeanRemote;
+import com.service.TutorBeanRemote;
+import com.service.UsuarioBeanRemote;
+
+import Clases.Itr;
 
 public class ControladorLoginRegistro {
 	
@@ -11,9 +29,9 @@ public class ControladorLoginRegistro {
 		//IMPLEMENTAR
 		//según tipo de usuario:
 //		return "NO VALIDADO";
-		return "ESTUDIANTE";
+//		return "ESTUDIANTE";
 //		return "TUTOR";
-//		return "ANALISTA";
+		return "ANALISTA";
 	}
 	
 	public static String registro(
@@ -53,7 +71,7 @@ public class ControladorLoginRegistro {
 		if (!mailPersonalCorrecto) {
 			mensaje += "Verificar formato del correo personal, debe ser ejemplo@ejemplo.com\n";
 		};
-		
+		 
 		if (!mailUtec) {
 			mensaje += "Verificar que el correo institucional sea del dominio utec.edu.uy\n";
 		};
@@ -63,30 +81,90 @@ public class ControladorLoginRegistro {
 		};
 		
 		if (mailPersonalCorrecto && mailUtec && contraseñaValida) {
-			System.out.println("A IMPLEMENTAR");
-			//IMPLEMENTAR
-			mensaje += "La solicitud será revisada antes de estar activa";
+			
+			Usuario usuario = new Usuario();
+			usuario.setNombre(primerNombre);
+			usuario.setNombre2(segundoNombre);
+			usuario.setApellido(primerApellido);
+			usuario.setApellido2(segundoApellido);
+			usuario.setDocumento(cedula);
+			usuario.setDepartamento("");
+			usuario.setTelefono(telefono);
+			usuario.setNombreUsuario(emailInstitucional);
+			usuario.setCorreo(emailPersonal);
+			usuario.setContraseña(contraseña);
+			usuario.setFechaNacimiento(fecNacimiento);
+			usuario.setGenero("");
+			usuario.setLocalidad(locDepartamento);
+			usuario.setTipoUsuario(tipoDeUsuario);
+			usuario.setOtroTipoUsuario("");
+			usuario.setEstado("NO VALIDADO"); 
+			
+			Long idItr = null;
+			UsuarioBeanRemote usuarioBean;
+			
+			try {
+				idItr = ControladorListarItrs.obtenerId(itr);
+			} catch (NamingException e) {
+				mensaje += "No se obtuvo id del Itr";
+				e.printStackTrace();
+			}
+			try {
+				usuarioBean = (UsuarioBeanRemote)
+						InitialContext.doLookup("PDT1erAño/UsuarioBean!com.service.UsuarioBeanRemote");
+				Usuario u = usuarioBean.crear(usuario,idItr);
+				Long idU = u.getId();
+				switch (tipoDeUsuario) {
+					case "ANALISTA": 
+						AnalistaBeanRemote analistaBean = (AnalistaBeanRemote)
+						InitialContext.doLookup("PDT1erAño/AnalistaBean!com.service.AnalistaBeanRemote");
+						Analista a = analistaBean.crear(idU);
+					case "TUTOR": 
+						TutorBeanRemote tutorBean = (TutorBeanRemote)
+						InitialContext.doLookup("PDT1erAño/TutorBean!com.service.TutorBeanRemote");
+						Tutor tutor = tutorBean.crear(idU, area, rol);
+					case "ESTUDIANTE": 
+						EstudianteBeanRemote estudianteBean = (EstudianteBeanRemote)
+						InitialContext.doLookup("PDT1erAño/EstudianteBean!com.service.EstudianteBeanRemote");
+						Estudiante e = estudianteBean.crear(idU, añoIngreso,"1");
+				};
+				
+				mensaje += "La solicitud será revisada antes de estar activa";
+				
+			} catch (NamingException e) {
+				mensaje += "No se accedió al bean de usuario";
+				e.printStackTrace();
+			} catch (ServiciosException e) {
+				mensaje += "No se pudo crear el usuario";
+				e.printStackTrace();
+			}
 		};
 		
 		return mensaje;
 	}
 	
-	public static LinkedList<String> getItrs() {
-		System.out.println("A IMPLEMENTAR");
-		//IMPLEMENTAR
-		LinkedList<String> itrs = new LinkedList<String>();
-		itrs.add("Centro-Sur");
-		itrs.add("Fray Bentos");
-		return itrs;
+	public static LinkedList<String> getItrs() throws NamingException {
+		
+		LinkedList<Itr> itrs = ControladorListarItrs.getItrs();
+		
+		LinkedList<String> itrsNombres = new LinkedList<String>();
+		
+		for (Itr i : itrs) {
+			if (i.getEstado().equals("ACTIVO")) {
+				itrsNombres.add(i.getNombre());
+			};
+		};
+		
+		return itrsNombres;
 	}
 	
 	public static LinkedList<String> getTipoDeUsuarios() {
-		System.out.println("A IMPLEMENTAR");
-		//IMPLEMENTAR
+
 		LinkedList<String> usuarios = new LinkedList<String>();
-		usuarios.add("Estudiante");
-		usuarios.add("Analista");
-		usuarios.add("Tutor");
+		usuarios.add("ESTUDIANTE");
+		usuarios.add("ANALISTA");
+		usuarios.add("TUTOR");
 		return usuarios;
+		
 	}
 }

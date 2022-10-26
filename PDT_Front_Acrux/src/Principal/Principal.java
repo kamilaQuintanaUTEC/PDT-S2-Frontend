@@ -11,7 +11,7 @@ public class Principal {
         try {  
         	
             LoginRegistro form = new LoginRegistro();
-            
+    		
         } catch(Exception e) {
         	
         	e.printStackTrace();

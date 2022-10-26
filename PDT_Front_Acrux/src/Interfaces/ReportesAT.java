@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 
+import javax.naming.NamingException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,27 +32,33 @@ public class ReportesAT {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-        LinkedList<Usuario> usuarios = ControladorListarUsuarios.getUsuarios();
-        int y = 15;
-        for (Usuario usuario : usuarios) {
-        	JLabel usuarioLabel = new JLabel(usuario.getPrimerNombre() + " " + usuario.getPrimerApellido());
-        	usuarioLabel.setBounds(15, y, 110, 20);
-            frame.getContentPane().add(usuarioLabel);
-            JButton verBtn = new JButton("VER ESCOLARIDAD");
-    		verBtn.addActionListener(new ActionListener() {
-        		public void actionPerformed(ActionEvent e) {
-        			try {
-        			     File path = new File ("escolaridad.pdf");
-        			     Desktop.getDesktop().open(path);
-        			}catch (IOException ex) {
-        			     ex.printStackTrace();
-        			     JOptionPane.showMessageDialog(null, "No se pudo abrir el archivo");
-        			}
-        		}
-            });
-    		verBtn.setBounds(130, y, 130, 20);
-    		y += 25;
-        };
+        LinkedList<Usuario> usuarios;
+		try {
+			usuarios = ControladorListarUsuarios.getUsuarios();
+			int y = 15;
+	        for (Usuario usuario : usuarios) {
+	        	JLabel usuarioLabel = new JLabel(usuario.getPrimerNombre() + " " + usuario.getPrimerApellido());
+	        	usuarioLabel.setBounds(15, y, 110, 20);
+	            frame.getContentPane().add(usuarioLabel);
+	            JButton verBtn = new JButton("VER ESCOLARIDAD");
+	    		verBtn.addActionListener(new ActionListener() {
+	        		public void actionPerformed(ActionEvent e) {
+	        			try {
+	        			     File path = new File ("escolaridad.pdf");
+	        			     Desktop.getDesktop().open(path);
+	        			}catch (IOException ex) {
+	        			     ex.printStackTrace();
+	        			     JOptionPane.showMessageDialog(null, "No se pudo abrir el archivo");
+	        			}
+	        		}
+	            });
+	    		verBtn.setBounds(130, y, 130, 20);
+	    		y += 25;
+	        };
+		} catch (NamingException e1) {
+			JOptionPane.showMessageDialog(null, "Error al traer los usuarios");
+			e1.printStackTrace();
+		}
 		
 		frame.setTitle("REPORTES");
 		frame.setVisible(true);

@@ -3,8 +3,10 @@ package Interfaces;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.naming.NamingException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class AnalistaPrincipal {
 	
@@ -40,7 +42,12 @@ public class AnalistaPrincipal {
 		JButton listarItrsBtn = new JButton("Listado de ITRs");
 		listarItrsBtn.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) { 
-    			ListarItrs listarItrs = new ListarItrs();
+    			try {
+					ListarItrs listarItrs = new ListarItrs();
+				} catch (NamingException e1) {
+					JOptionPane.showMessageDialog(null, "Error al abrir ITRs");
+					e1.printStackTrace();
+				}
     		}
         });
 		listarItrsBtn.setBounds(15, 65, 200, 20);

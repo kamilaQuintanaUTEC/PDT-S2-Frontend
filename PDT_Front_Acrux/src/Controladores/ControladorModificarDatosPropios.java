@@ -12,7 +12,7 @@ public class ControladorModificarDatosPropios {
 	public static Usuario getUsuario(String nombreUsuario) {
 		System.out.println("A IMPLEMENTAR");
 		//IMPLEMENTAR
-		Usuario s1 = new Usuario("Test1", "", "Test1", "", "12345678", "20/01/2000", "test1@test.com", "999999999", "Casa", nombreUsuario, "testContraseña1", "Centro-Sur", "Analista", "", "", "", "VALIDADO");
+		Usuario s1 = new Usuario("Test1", "", "Test1", "", "12345678", "20/01/2000", "test1@test.com", "999999999", "Casa", nombreUsuario, "testContraseña1", null, "Analista", "", "", "", "VALIDADO");
 		return s1;
 	}
 	
