@@ -1,22 +1,70 @@
 package Controladores;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.swing.JOptionPane;
 
+import com.entities.Estudiante;
+import com.entities.ITR;
+import com.entities.Tutor;
+import com.exception.ServiciosException;
+import com.service.EstudianteBeanRemote;
+import com.service.ITRBeanRemote;
+import com.service.TutorBeanRemote;
+import com.service.UsuarioBeanRemote;
+
+import Clases.Itr;
 import Clases.Usuario;
 
 public class ControladorModificarDatosPropios {
 	
-	public static Usuario getUsuario(String nombreUsuario) {
-		System.out.println("A IMPLEMENTAR");
-		//IMPLEMENTAR
-		Usuario s1 = new Usuario("Test1", "", "Test1", "", "12345678", "20/01/2000", "test1@test.com", "999999999", "Casa", nombreUsuario, "testContraseña1", null, "Analista", "", "", "", "VALIDADO");
-		return s1;
+	public static Usuario getUsuario(String nombreUsuario) throws NamingException {
+		
+		UsuarioBeanRemote usuarioBean = (UsuarioBeanRemote)
+				InitialContext.doLookup("PDT1erAño/UsuarioBean!com.service.UsuarioBeanRemote");
+		List<com.entities.Usuario> usuariosBack = usuarioBean.obtenerTodos();
+		for (com.entities.Usuario u : usuariosBack) {
+			if (u.getNombreUsuario().equals(nombreUsuario)) {
+				Itr itr = new Itr(u.getItr().getNombre(),u.getItr().getEstado());
+				String area = "";
+				String rol = "";
+				String añoIngreso = "";
+				switch (u.getTipoUsuario()) {
+					case "TUTOR":
+						TutorBeanRemote tutorBean = (TutorBeanRemote)
+						InitialContext.doLookup("PDT1erAño/TutorBean!com.service.TutorBeanRemote");
+						List<Tutor> tutores = tutorBean.obtenerTodos();
+						for (Tutor t : tutores) {
+							if (t.getUsuario().equals(u)) {
+								area = t.getArea();
+								rol = t.getTipoTutor();
+							};
+						};
+						break;
+					case "ESTUDIANTE":
+						EstudianteBeanRemote estudianteBean = (EstudianteBeanRemote)
+						InitialContext.doLookup("PDT1erAño/EstudianteBean!com.service.EstudianteBeanRemote");
+						List<Estudiante> estudiantesBack = estudianteBean.obtenerGeneracionSemestre();
+						for (Estudiante e : estudiantesBack) {
+							if (e.getUsuario().equals(u)) {
+								añoIngreso = e.getGeneracion();
+							};
+						};
+						break;
+				};
+				Usuario usuario = new Usuario(u.getNombre(),u.getNombre2(),u.getApellido(),u.getApellido2(),u.getDocumento(),u.getFechaNacimiento(),u.getCorreo(),u.getTelefono(),u.getLocalidad(),nombreUsuario,u.getContraseña(),itr,u.getTipoUsuario(),añoIngreso,area,rol,u.getEstado());
+				return usuario;
+			};
+		};
+		return null;
 	}
 	
 	public static String modificar(
+			String emailInstitucional,
 			String primerNombre,
 			String segundoNombre,
 			String primerApellido,
@@ -54,14 +102,60 @@ public class ControladorModificarDatosPropios {
 		};
 		
 		if (mailPersonalCorrecto && contraseñaValida) {
-			System.out.println("A IMPLEMENTAR");
-			//IMPLEMENTAR
+			
 			int confirmacion = JOptionPane.showConfirmDialog(null, "¿Confirma los cambios?");
 	        // 0=yes, 1=no, 2=cancel
 	        if (confirmacion == 0) {
-	        	System.out.println("A IMPLEMENTAR");
-				//IMPLEMENTAR
-	        	respuesta +="Cambios hechos.";
+	        	
+	        	UsuarioBeanRemote usuarioBean;
+				try {
+					usuarioBean = (UsuarioBeanRemote)
+							InitialContext.doLookup("PDT1erAño/UsuarioBean!com.service.UsuarioBeanRemote");
+		        	List<com.entities.Usuario> uList = usuarioBean.obtenerTodos();
+		    		for (com.entities.Usuario u : uList) {
+		    			if (u.getNombreUsuario().equals(emailInstitucional)) {
+		    				u.setNombre(primerNombre);
+		    				u.setNombre2(segundoNombre);
+		    				u.setApellido(primerApellido);
+		    				u.setApellido2(segundoApellido);
+		    				u.setDocumento(cedula);
+		    				u.setTelefono(telefono);
+		    				u.setCorreo(emailPersonal);
+		    				u.setFechaNacimiento(fecNacimiento);
+		    				u.setLocalidad(locDepartamento);
+		    				///ITR
+		    				ITRBeanRemote itrBean = (ITRBeanRemote)
+		    		    			InitialContext.doLookup("PDT1erAño/ITRBean!com.service.ITRBeanRemote");
+		    				List<ITR> itrsBack = itrBean.obtenerTodos();
+		    				for (ITR i : itrsBack) {
+		    					if (i.getNombre().equals(itr)) {
+		    						u.setItr(i);
+		    					}
+		    				};
+		    				///
+		    				switch (u.getTipoUsuario()) {
+		    					case "TUTOR":
+		    						TutorBeanRemote tutorBean = (TutorBeanRemote)
+		    						InitialContext.doLookup("PDT1erAño/TutorBean!com.service.TutorBeanRemote");
+		    						tutorBean.modificarTutor(area, rol, u.getId());
+		    						break;
+		    					case "ESTUDIANTE":
+		    						EstudianteBeanRemote estudianteBean = (EstudianteBeanRemote)
+		    						InitialContext.doLookup("PDT1erAño/EstudianteBean!com.service.EstudianteBeanRemote");
+		    						estudianteBean.modificarEstudiante(añoIngreso, "", u.getId());
+		    						break;
+		    				};
+		    				usuarioBean.actualizarUsuarioAuto(u.getId(),u);
+		    				respuesta +="Cambios hechos.";
+		    			};
+		    		}
+				} catch (NamingException e) {
+					respuesta +="Error al buscar los beans.";
+					e.printStackTrace();
+				} catch (ServiciosException e) {
+					respuesta +="Error.";
+					e.printStackTrace();
+				};
 	        };
 		};
 		

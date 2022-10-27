@@ -24,8 +24,17 @@ import Controladores.ControladorModificarUsuario;
 public class ModificarDatosPropios {
 
 	public ModificarDatosPropios(String nombreUsuario) {
-		Usuario s = ControladorModificarDatosPropios.getUsuario(nombreUsuario);
-		initialize(s);
+		Usuario s;
+		try {
+			s = ControladorModificarDatosPropios.getUsuario(nombreUsuario);
+			initialize(s);
+		} catch (NamingException e) {
+			JOptionPane.showMessageDialog(null, "Error al traer el usuario");
+			e.printStackTrace();
+		} catch (NullPointerException e) {
+			JOptionPane.showMessageDialog(null, "No se encontró el usuario");
+			e.printStackTrace();
+		}
 	}
       
 	private void initialize(Usuario usuario) {
@@ -197,7 +206,7 @@ public class ModificarDatosPropios {
     			if (primerNombre.equals("") || segundoNombre.equals("") || primerApellido.equals("") || segundoApellido.equals("") || cedula.equals("") || fecNacimiento.equals("") || emailPersonal.equals("") || telefono.equals("") || locDepartamento.equals("") || (usuario.getTipoDeUsuario().equals("Estudiante") && añoIngreso.equals("")) || (usuario.getTipoDeUsuario().equals("Tutor") && area.equals("")) && contraseña.equals("")) {
     				JOptionPane.showMessageDialog(null, "Completar todos los datos requeridos");
     			} else {
-    				String respuesta = ControladorModificarDatosPropios.modificar(primerNombre,segundoNombre,primerApellido,segundoApellido,cedula,fecNacimiento,emailPersonal,telefono,locDepartamento,contraseña,itr,añoIngreso,area,rol);
+    				String respuesta = ControladorModificarDatosPropios.modificar(usuario.getEmailInstitucional(),primerNombre,segundoNombre,primerApellido,segundoApellido,cedula,fecNacimiento,emailPersonal,telefono,locDepartamento,contraseña,itr,añoIngreso,area,rol);
 	    	        JOptionPane.showMessageDialog(null, respuesta);
     			};
 

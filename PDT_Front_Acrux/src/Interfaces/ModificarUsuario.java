@@ -193,7 +193,7 @@ public class ModificarUsuario {
     			if (primerNombre.equals("") || segundoNombre.equals("") || primerApellido.equals("") || segundoApellido.equals("") || cedula.equals("") || fecNacimiento.equals("") || emailPersonal.equals("") || telefono.equals("") || locDepartamento.equals("") || (usuario.getTipoDeUsuario().equals("Estudiante") && añoIngreso.equals("")) || (usuario.getTipoDeUsuario().equals("Tutor") && area.equals(""))) {
     				JOptionPane.showMessageDialog(null, "Completar todos los datos requeridos");
     			} else {
-    				String respuesta = ControladorModificarUsuario.modificar(primerNombre,segundoNombre,primerApellido,segundoApellido,cedula,fecNacimiento,emailPersonal,telefono,locDepartamento,itr,añoIngreso,area,rol,estado);
+    				String respuesta = ControladorModificarUsuario.modificar(usuario.getEmailInstitucional(),primerNombre,segundoNombre,primerApellido,segundoApellido,cedula,fecNacimiento,emailPersonal,telefono,locDepartamento,itr,añoIngreso,area,rol,estado);
 	    	        JOptionPane.showMessageDialog(null, respuesta);
     			};
 
