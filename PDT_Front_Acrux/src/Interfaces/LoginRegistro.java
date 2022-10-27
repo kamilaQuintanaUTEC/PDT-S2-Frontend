@@ -2,9 +2,7 @@ package Interfaces;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 
@@ -60,17 +58,23 @@ public class LoginRegistro {
 	    	        String nombreUsuario = nombreUsuarioCampo.getText();
 	    	        String contraseña = contraseñaCampo.getText();
 	    	        
-	    	        String tipoDeUsuario = ControladorLoginRegistro.login(nombreUsuario,contraseña);
-	    	        switch (tipoDeUsuario){
-	    	        	case "NO VALIDADO": JOptionPane.showMessageDialog(null, "Datos incorrectos");
-	    	        	break;
-	    	        	case "ESTUDIANTE": EstudiantePrincipal estudiantePrincipal = new EstudiantePrincipal(nombreUsuario);
-	    	        	break;
-	    	        	case "TUTOR": TutorPrincipal tutorPrincipal = new TutorPrincipal(nombreUsuario);
-	    	        	break;
-	    	        	case "ANALISTA": AnalistaPrincipal analistaPrincipal = new AnalistaPrincipal(nombreUsuario);
-	    	        	break;
-	    	        }
+	    	        String tipoDeUsuario;
+					try {
+						tipoDeUsuario = ControladorLoginRegistro.login(nombreUsuario,contraseña);
+		    	        switch (tipoDeUsuario){
+		    	        	case "NO VALIDADO": JOptionPane.showMessageDialog(null, "Datos incorrectos o usuario no validado aún");
+		    	        	break;
+		    	        	case "ESTUDIANTE": EstudiantePrincipal estudiantePrincipal = new EstudiantePrincipal(nombreUsuario);
+		    	        	break;
+		    	        	case "TUTOR": TutorPrincipal tutorPrincipal = new TutorPrincipal(nombreUsuario);
+		    	        	break;
+		    	        	case "ANALISTA": AnalistaPrincipal analistaPrincipal = new AnalistaPrincipal(nombreUsuario);
+		    	        	break;
+		    	        }
+					} catch (NamingException e1) {
+						JOptionPane.showMessageDialog(null, "Error al intentar iniciar sesión");
+						e1.printStackTrace();
+					}
 	    		}
 	        });
 	        ingresarBtn.setBounds(15, 90, 130, 20);

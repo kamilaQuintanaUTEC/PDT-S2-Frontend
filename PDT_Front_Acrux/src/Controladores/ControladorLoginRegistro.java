@@ -1,9 +1,7 @@
 package Controladores;
 
-import java.util.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,14 +22,22 @@ import Clases.Itr;
 
 public class ControladorLoginRegistro {
 	
-	public static String login(String nombreUsuario, String contraseña) {
-		System.out.println("A IMPLEMENTAR");
-		//IMPLEMENTAR
-		//según tipo de usuario:
-//		return "NO VALIDADO";
-//		return "ESTUDIANTE";
-//		return "TUTOR";
-		return "ANALISTA";
+	public static String login(String nombreUsuario, String contraseña) throws NamingException {
+		
+		UsuarioBeanRemote usuarioBean = (UsuarioBeanRemote)
+				InitialContext.doLookup("PDT1erAño/UsuarioBean!com.service.UsuarioBeanRemote");
+		List<Usuario> usuarios =usuarioBean.login(nombreUsuario,contraseña);
+		for (Usuario u : usuarios) {
+			if (u.getNombreUsuario().equals(nombreUsuario) && 
+				u.getContraseña().equals(contraseña) &&
+				u.getEstado().equals("VALIDADO")
+			) {
+				return u.getTipoUsuario();
+			};
+		};
+		
+		return "NO VALIDADO";
+
 	}
 	
 	public static String registro(

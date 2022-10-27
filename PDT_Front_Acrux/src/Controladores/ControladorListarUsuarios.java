@@ -7,6 +7,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.swing.JOptionPane;
 
+import com.exception.ServiciosException;
 import com.service.UsuarioBeanRemote;
 
 import Clases.Itr;
@@ -48,6 +49,7 @@ public class ControladorListarUsuarios {
 		return usuarios;
 	};
 	
+	
 	public static LinkedList<Usuario> filtrar(LinkedList<Usuario> usuarios, String tipoDeUsuario, String itr, String añoIngreso, String estado) {
 		
 		int i = 0;
@@ -70,30 +72,56 @@ public class ControladorListarUsuarios {
 		return usuarios;
 	};
 	
+	
 	public static LinkedList<String> getEstados() {
-		System.out.println("A IMPLEMENTAR");
-		//IMPLEMENTAR
+		
 		LinkedList<String> estados = new LinkedList<String>();
 		estados.add("NO VALIDADO");
 		estados.add("VALIDADO");
 		estados.add("ELIMINADO");
 		return estados;
-	}
+		
+	};
 	
-	public static boolean eliminar(String cedula) {
-		System.out.println("A IMPLEMENTAR");
-		//IMPLEMENTAR
+	
+	public static boolean eliminar(String cedula) throws NamingException, ServiciosException {
+		
 		int confirmacion = JOptionPane.showConfirmDialog(null, "¿Confirma la eliminación?");
         // 0=yes, 1=no, 2=cancel
         if (confirmacion == 0) {
-        	System.out.println("A IMPLEMENTAR");
-			//IMPLEMENTAR
-        	if (true) {
-        		JOptionPane.showMessageDialog(null, "Usuario eliminado");
-        		return true;
-        	} else {
-				JOptionPane.showMessageDialog(null, "Error");
-			};
+        	
+        	UsuarioBeanRemote usuarioBean = (UsuarioBeanRemote)
+    				InitialContext.doLookup("PDT1erAño/UsuarioBean!com.service.UsuarioBeanRemote");
+        	List<com.entities.Usuario> uList = usuarioBean.obtenerTodos();
+    		for (com.entities.Usuario u : uList) {
+    			if (u.getDocumento().equals(cedula)) {
+    				usuarioBean.actualizarEstado(u.getId(),"ELIMINADO");
+    				return true;
+    			};
+    		};
+
+        }
+        
+		return false;
+	};
+	
+	
+	public static boolean reactivar(String cedula) throws NamingException, ServiciosException {
+		
+		int confirmacion = JOptionPane.showConfirmDialog(null, "¿Confirma la reactivación?");
+        // 0=yes, 1=no, 2=cancel
+        if (confirmacion == 0) {
+        	
+        	UsuarioBeanRemote usuarioBean = (UsuarioBeanRemote)
+    				InitialContext.doLookup("PDT1erAño/UsuarioBean!com.service.UsuarioBeanRemote");
+        	List<com.entities.Usuario> uList = usuarioBean.obtenerTodos();
+    		for (com.entities.Usuario u : uList) {
+    			if (u.getDocumento().equals(cedula)) {
+    				usuarioBean.actualizarEstado(u.getId(),"VALIDADO");
+    				return true;
+    			};
+    		};
+
         }
         
 		return false;

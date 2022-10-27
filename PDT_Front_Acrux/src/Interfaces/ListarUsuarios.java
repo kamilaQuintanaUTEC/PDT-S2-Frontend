@@ -7,13 +7,14 @@ import java.util.LinkedList;
 import javax.naming.NamingException;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+
+import com.exception.ServiciosException;
 
 import Clases.Usuario;
 import Controladores.ControladorListarUsuarios;
@@ -36,15 +37,6 @@ public class ListarUsuarios {
 		lista.setLayout(null);
 		lista.setBounds(15, 90, 700, 700);
 		frame.getContentPane().add(lista);
-		
-		LinkedList<Usuario> usuarios;
-		try {
-			usuarios = ControladorListarUsuarios.getUsuarios();
-			listado(usuarios, lista);
-		} catch (NamingException e2) {
-			JOptionPane.showMessageDialog(null, "Error al traer los usuarios");
-			e2.printStackTrace();
-		}
 		
 		JLabel añoIngresoCampoLabel = new JLabel("Año de ingreso");
         añoIngresoCampoLabel.setBounds(15, 40, 110, 20);
@@ -111,50 +103,23 @@ public class ListarUsuarios {
 		JButton filtrarBtn = new JButton("FILTRAR");
 		filtrarBtn.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
-    			
-    	        String tipoDeUsuario = "";
-    	        try {
-    	        	tipoDeUsuario = usuariosBtnGr.getSelection().getActionCommand();
-    	        } catch (NullPointerException er) {};
-    	        
-    	        String itr = "";
-    	        try {
-    	        	itr = itrsBtnGr.getSelection().getActionCommand();
-    	        } catch (NullPointerException er) {};
-    	        
-    	        String estado = "";
-    	        try {
-    	        	estado = estadosBtnGr.getSelection().getActionCommand();
-    	        } catch (NullPointerException er) {};
-    	        
-    	        String añoIngreso = añoIngresoCampo.getText();
-
-    	        lista.removeAll();
-    	        frame.remove(lista);
-    	        frame.repaint();
-    			
-    	        LinkedList<Usuario> usuarios;
-				try {
-					usuarios = ControladorListarUsuarios.getUsuarios();
-					LinkedList<Usuario> usuariosFiltrados = ControladorListarUsuarios.filtrar(usuarios, tipoDeUsuario, itr, añoIngreso, estado);
-					listado(usuariosFiltrados, lista);
-	    	        frame.getContentPane().add(lista);
-				} catch (NamingException e1) {
-					JOptionPane.showMessageDialog(null, "Error al traer los usuarios");
-					e1.printStackTrace();
-				}
+    		
+    	        render(usuariosBtnGr,itrsBtnGr,estadosBtnGr,añoIngresoCampo,lista,frame);
 
     		}
         });
 		filtrarBtn.setBounds(15, 65, 130, 20);
 		frame.getContentPane().add(filtrarBtn);
+		
+		//LinkedList<Usuario> usuarios;
+		render(usuariosBtnGr,itrsBtnGr,estadosBtnGr,añoIngresoCampo,lista,frame);
         
 		frame.setTitle("LISTAR USUARIOS");
 		frame.setVisible(true);
 		
 	}
 	
-	public static void listado(LinkedList<Usuario> usuarios, JPanel lista) {
+	public static void listado(LinkedList<Usuario> usuarios, ButtonGroup usuariosBtnGr,ButtonGroup itrsBtnGr,ButtonGroup estadosBtnGr,JTextField añoIngresoCampo,JPanel lista, JFrame frame) {
 		
 		int y = 0;
         for (Usuario usuario : usuarios) {
@@ -163,31 +128,99 @@ public class ListarUsuarios {
         	usuarioLabel.setBounds(0, y, 200, 20);
         	lista.add(usuarioLabel);
             
-			JButton modificarBtn = new JButton("MODIFICAR");
-			modificarBtn.addActionListener(new ActionListener() {
-	    		public void actionPerformed(ActionEvent e) {
-	    			ModificarUsuario modificarUsuario = new ModificarUsuario(usuario);
-	    		}
-	        });
-			modificarBtn.setBounds(235, y, 130, 20);
-			lista.add(modificarBtn);
-			
-			JButton eliminarBtn = new JButton("ELIMINAR");
-			eliminarBtn.setBounds(370, y, 130, 20);
-			lista.add(eliminarBtn);
-			eliminarBtn.addActionListener(new ActionListener() {
-	    		public void actionPerformed(ActionEvent e) {
-	    			ControladorListarUsuarios.eliminar(usuario.getCedula());
-	    			//re render??
-	    			lista.remove(usuarioLabel);
-	    			lista.remove(modificarBtn);
-	    			lista.remove(eliminarBtn);
-	    			lista.repaint();
-	    		}
-	        });
+        	if (usuario.getEstado().equals("ELIMINADO")) {
+        		JButton reactivarBtn = new JButton("REACTIVAR");
+        		reactivarBtn.setBounds(370, y, 130, 20);
+    			lista.add(reactivarBtn);
+    			reactivarBtn.addActionListener(new ActionListener() {
+    	    		public void actionPerformed(ActionEvent e) {
+    	    			try {
+    						boolean reactivado = ControladorListarUsuarios.reactivar(usuario.getCedula());
+    						if (reactivado) {
+    							JOptionPane.showMessageDialog(null, "Usuario reactivado");
+    							render(usuariosBtnGr,itrsBtnGr,estadosBtnGr,añoIngresoCampo,lista,frame);
+    						} else {
+    							JOptionPane.showMessageDialog(null, "No se pudo reactivar");
+    						};
+    					} catch (NamingException e1) {
+    						JOptionPane.showMessageDialog(null, "No se pudo reactivar");
+    						e1.printStackTrace();
+    					} catch (ServiciosException e1) {
+    						JOptionPane.showMessageDialog(null, "No se pudo reactivar");
+    						e1.printStackTrace();
+    					};
+    	    		};
+    	        });
+        	} else {
+    			JButton modificarBtn = new JButton("MODIFICAR");
+    			modificarBtn.addActionListener(new ActionListener() {
+    	    		public void actionPerformed(ActionEvent e) {
+    	    			ModificarUsuario modificarUsuario = new ModificarUsuario(usuario);
+    	    		}
+    	        });
+    			modificarBtn.setBounds(235, y, 130, 20);
+    			lista.add(modificarBtn);
+    			
+    			JButton eliminarBtn = new JButton("ELIMINAR");
+    			eliminarBtn.setBounds(370, y, 130, 20);
+    			lista.add(eliminarBtn);
+    			eliminarBtn.addActionListener(new ActionListener() {
+    	    		public void actionPerformed(ActionEvent e) {
+    	    			try {
+    						boolean eliminado = ControladorListarUsuarios.eliminar(usuario.getCedula());
+    						if (eliminado) {
+    							JOptionPane.showMessageDialog(null, "Usuario eliminado");
+    							render(usuariosBtnGr,itrsBtnGr,estadosBtnGr,añoIngresoCampo,lista,frame);
+    						} else {
+    							JOptionPane.showMessageDialog(null, "No se pudo eliminar");
+    						};
+    					} catch (NamingException e1) {
+    						JOptionPane.showMessageDialog(null, "No se pudo eliminar");
+    						e1.printStackTrace();
+    					} catch (ServiciosException e1) {
+    						JOptionPane.showMessageDialog(null, "No se pudo eliminar");
+    						e1.printStackTrace();
+    					};
+    	    		};
+    	        });
+        	};
 			
 			y += 25;
         }
         
+	};
+	
+	public static void render (ButtonGroup usuariosBtnGr,ButtonGroup itrsBtnGr,ButtonGroup estadosBtnGr,JTextField añoIngresoCampo,JPanel lista, JFrame frame) {
+		String tipoDeUsuario = "";
+        try {
+        	tipoDeUsuario = usuariosBtnGr.getSelection().getActionCommand();
+        } catch (NullPointerException er) {};
+        
+        String itr = "";
+        try {
+        	itr = itrsBtnGr.getSelection().getActionCommand();
+        } catch (NullPointerException er) {};
+        
+        String estado = "";
+        try {
+        	estado = estadosBtnGr.getSelection().getActionCommand();
+        } catch (NullPointerException er) {};
+        
+        String añoIngreso = añoIngresoCampo.getText();
+
+        lista.removeAll();
+        frame.remove(lista);
+        frame.repaint();
+		
+        LinkedList<Usuario> usuarios;
+		try {
+			usuarios = ControladorListarUsuarios.getUsuarios();
+			LinkedList<Usuario> usuariosFiltrados = ControladorListarUsuarios.filtrar(usuarios, tipoDeUsuario, itr, añoIngreso, estado);
+			listado(usuariosFiltrados,usuariosBtnGr,itrsBtnGr,estadosBtnGr,añoIngresoCampo,lista,frame);
+	        frame.getContentPane().add(lista);
+		} catch (NamingException e1) {
+			JOptionPane.showMessageDialog(null, "Error al traer los usuarios");
+			e1.printStackTrace();
+		}
 	};
 }
