@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import javax.naming.NamingException;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
@@ -12,16 +13,18 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import com.exception.ServiciosException;
+
 import Clases.Reclamo;
-import Controladores.ControladorRealizarRegistro;
+import Controladores.ControladorRealizarReclamo;
 
 public class RealizarReclamo {
 
-	public RealizarReclamo() {
-		initialize();
+	public RealizarReclamo(String nombreUsuario) {
+		initialize(nombreUsuario);
 	}
       
-	private void initialize() {
+	private void initialize(String nombreUsuario) {
 
 		JFrame frame = new JFrame();
 		frame.setBounds(50, 100, 1100, 600);
@@ -109,8 +112,17 @@ public class RealizarReclamo {
     			if (titulo.equals("") || descripcion.equals("")) {
     				JOptionPane.showMessageDialog(null, "Completar todos los datos requeridos");
     			} else {
-    				String respuesta = ControladorRealizarRegistro.agregar(titulo,descripcion,nombreEventoVME,nombreActividadAPE,semestre,fecha,docente,creditos);
-	    	        JOptionPane.showMessageDialog(null, respuesta);
+    				String respuesta;
+					try {
+						respuesta = ControladorRealizarReclamo.agregar(nombreUsuario,titulo,descripcion,nombreEventoVME,nombreActividadAPE,semestre,fecha,docente,creditos);
+						JOptionPane.showMessageDialog(null, respuesta);
+					} catch (NamingException e1) {
+						JOptionPane.showMessageDialog(null, "Error al buscar los beans");
+						e1.printStackTrace();
+					} catch (ServiciosException e1) {
+						JOptionPane.showMessageDialog(null, "Error al usar los servicios");
+						e1.printStackTrace();
+					};
     			};
 
     		}

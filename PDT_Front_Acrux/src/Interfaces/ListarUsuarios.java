@@ -111,7 +111,6 @@ public class ListarUsuarios {
 		filtrarBtn.setBounds(15, 65, 130, 20);
 		frame.getContentPane().add(filtrarBtn);
 		
-		//LinkedList<Usuario> usuarios;
 		render(usuariosBtnGr,itrsBtnGr,estadosBtnGr,añoIngresoCampo,lista,frame);
         
 		frame.setTitle("LISTAR USUARIOS");

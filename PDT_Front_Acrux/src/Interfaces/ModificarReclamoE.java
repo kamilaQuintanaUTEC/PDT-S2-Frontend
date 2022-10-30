@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import javax.naming.NamingException;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
@@ -12,18 +13,20 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import com.exception.ServiciosException;
+
 import Clases.Reclamo;
 import Controladores.ControladoModificarReclamoE;
 import Controladores.ControladorModificarReclamoA;
-import Controladores.ControladorRealizarRegistro;
+import Controladores.ControladorRealizarReclamo;
 
 public class ModificarReclamoE {
 
-	public ModificarReclamoE(Reclamo reclamo) {
-		initialize(reclamo);
+	public ModificarReclamoE(String nombreUsuario, Reclamo reclamo) {
+		initialize(nombreUsuario,reclamo);
 	}
       
-	private void initialize(Reclamo reclamo) {
+	private void initialize(String nombreUsuario, Reclamo reclamo) {
 
 		JFrame frame = new JFrame();
 		frame.setBounds(50, 100, 1100, 600);
@@ -119,12 +122,21 @@ public class ModificarReclamoE {
     			if (titulo.equals("") || descripcion.equals("")) {
     				JOptionPane.showMessageDialog(null, "Completar todos los datos requeridos");
     			} else {
-    				boolean modificado = ControladoModificarReclamoE.modificar(titulo,descripcion,nombreEventoVME,nombreActividadAPE,semestre,fecha,docente,creditos);
-        			if (modificado) {
-        				JOptionPane.showMessageDialog(null, "Se registraron los cambios");
-        			} else {
-        				JOptionPane.showMessageDialog(null, "No se pudo registrar los cambios");
-        			};
+    				boolean modificado;
+					try {
+						modificado = ControladoModificarReclamoE.modificar(nombreUsuario,reclamo.getTitulo(),titulo,descripcion,nombreEventoVME,nombreActividadAPE,semestre,fecha,docente,creditos);
+						if (modificado) {
+	        				JOptionPane.showMessageDialog(null, "Se registraron los cambios");
+	        			} else {
+	        				JOptionPane.showMessageDialog(null, "No se pudo registrar los cambios");
+	        			};
+					} catch (NamingException e1) {
+						JOptionPane.showMessageDialog(null, "No se pudo registrar los cambios");
+						e1.printStackTrace();
+					} catch (ServiciosException e1) {
+						JOptionPane.showMessageDialog(null, "No se pudo registrar los cambios");
+						e1.printStackTrace();
+					};
     			};
 
     		}

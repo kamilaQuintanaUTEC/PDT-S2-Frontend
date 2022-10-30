@@ -56,7 +56,7 @@ public class AnalistaPrincipal {
 		JButton listarReclamosBtn = new JButton("Listado de Reclamos");
 		listarReclamosBtn.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) { 
-    			ListarReclamosA listarReclamos = new ListarReclamosA();
+    			ListarReclamosA listarReclamos = new ListarReclamosA(nombreUsuario);
     		}
         });
 		listarReclamosBtn.setBounds(15, 90, 200, 20);

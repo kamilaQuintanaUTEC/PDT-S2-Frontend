@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
 
+import javax.naming.NamingException;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,11 +20,11 @@ import Controladores.ControladorListarReclamosA;
 
 public class ListarReclamosA {
 
-	public ListarReclamosA() {
-		initialize();
+	public ListarReclamosA(String nombreUsuario) {
+		initialize(nombreUsuario);
 	}
       
-	private void initialize() {
+	private void initialize(String nombreUsuario) {
 
 		JFrame frame = new JFrame();
 		frame.setBounds(50, 100, 1100, 400);
@@ -46,53 +47,44 @@ public class ListarReclamosA {
         JLabel estadoLabel = new JLabel("Estado");
         estadoLabel.setBounds(15, 40, 110, 20);
         frame.getContentPane().add(estadoLabel);
-        LinkedList<Estado> estados = ControladorListarReclamosA.getEstados();
-        int x = 15;
-        for (Estado estado : estados) {
-        	if (estado.getEstado().equals("ACTIVO")) {
-	        	JRadioButton radioBtn = new JRadioButton(estado.getNombre());
-	        	radioBtn.setActionCommand(estado.getNombre());
-	        	x += 115;
-	        	radioBtn.setBounds(x,45,100,30);
-	        	estadoBtnGr.add(radioBtn);
-	        	frame.getContentPane().add(radioBtn);
-        	};
-        };
+        LinkedList<Estado> estados;
+		try {
+			estados = ControladorListarReclamosA.getEstados();
+			int x = 15;
+	        for (Estado estado : estados) {
+	        	if (estado.getEstado().equals("ACTIVO")) {
+		        	JRadioButton radioBtn = new JRadioButton(estado.getNombre());
+		        	radioBtn.setActionCommand(estado.getNombre());
+		        	x += 115;
+		        	radioBtn.setBounds(x,45,100,30);
+		        	estadoBtnGr.add(radioBtn);
+		        	frame.getContentPane().add(radioBtn);
+	        	};
+	        };
+		} catch (NamingException e1) {
+			JOptionPane.showMessageDialog(null, "No se pudo traer los estados");
+			e1.printStackTrace();
+		};
         
 		JButton filtrarBtn = new JButton("FILTRAR");
 		filtrarBtn.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
     			
-    	        String nombreUsuario = usuarioCampo.getText();
-    	        
-    	        String estado = "";
-    	        
-    	        try {
-    	        	estado = estadoBtnGr.getSelection().getActionCommand();
-    	        } catch (NullPointerException er) {
-    	        	JOptionPane.showMessageDialog(null, "Seleccionar un estado");
-    			};
-    			
-    			LinkedList<Reclamo> reclamos = ControladorListarReclamosA.getReclamos(nombreUsuario, estado);
-    	        
-    	        listado(reclamos, lista);
-    	        
-    	        frame.getContentPane().add(lista);
+    			render(usuarioCampo, estadoBtnGr, lista, frame, nombreUsuario);
     	        
     		}
         });
 		filtrarBtn.setBounds(15, 80, 130, 20);
 		frame.getContentPane().add(filtrarBtn);
 		
+		render(usuarioCampo, estadoBtnGr, lista, frame, nombreUsuario);
+		
 		frame.setTitle("LISTAR RECLAMOS");
 		frame.setVisible(true);
 		
 	};
 	
-	public static void listado(LinkedList<Reclamo> reclamos, JPanel lista) {
-		
-		lista.removeAll();
-		lista.repaint();
+	public static void listado(LinkedList<Reclamo> reclamos, JPanel lista, String nombreUsuario) {
 		
 		int y = 0;
 		
@@ -116,7 +108,7 @@ public class ListarReclamosA {
 			lista.add(modificarBtn);
 			modificarBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					ModificarReclamoA modificarReclamoA = new ModificarReclamoA(reclamo);
+					ModificarReclamoA modificarReclamoA = new ModificarReclamoA(nombreUsuario,reclamo);
 	    		};
 	        });
 			
@@ -126,7 +118,23 @@ public class ListarReclamosA {
         
 	};
 	
-	public static void rerender (LinkedList<Reclamo> reclamos, JPanel lista) {
-		listado(reclamos, lista);
+	public static void render (JTextField usuarioCampo, ButtonGroup estadoBtnGr, JPanel lista, JFrame frame, String nombreUsuario) {
+		String usuario = usuarioCampo.getText();
+		String estado = "";
+		try {
+			estadoBtnGr.getSelection().getActionCommand();
+		} catch (NullPointerException er) {};
+		lista.removeAll();
+        frame.remove(lista);
+        frame.repaint();
+        LinkedList<Reclamo> reclamos;
+        try {
+        	reclamos = ControladorListarReclamosA.getReclamos(usuario, estado);
+        	listado(reclamos,lista,nombreUsuario);
+        	frame.getContentPane().add(lista);
+        } catch (NamingException e1) {
+        	JOptionPane.showMessageDialog(null, "Error al traer los reclamos");
+			e1.printStackTrace();
+        };
 	};
 }

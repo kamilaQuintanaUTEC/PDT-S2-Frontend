@@ -105,4 +105,25 @@ public class ControladorModificarUsuario {
 		
 		return respuesta;
 	};
+	
+	public static void activarEstado(String nombreUsuario) {
+		UsuarioBeanRemote usuarioBean;
+		try {
+			usuarioBean = (UsuarioBeanRemote)
+					InitialContext.doLookup("PDT1erAño/UsuarioBean!com.service.UsuarioBeanRemote");
+        	List<com.entities.Usuario> uList = usuarioBean.obtenerTodos();
+    		for (com.entities.Usuario u : uList) {
+    			if (u.getNombreUsuario().equals(nombreUsuario)) {
+    				usuarioBean.actualizarEstado(u.getId(), "VALIDADO");
+    			};
+    		};
+    	} catch (NamingException e) {
+    		JOptionPane.showMessageDialog(null, "Error al buscar los beans");
+			e.printStackTrace();
+		} catch (ServiciosException e) {
+			JOptionPane.showMessageDialog(null, "Error al usar los servicios");
+			e.printStackTrace();
+		}; 
+    				
+	};
 }

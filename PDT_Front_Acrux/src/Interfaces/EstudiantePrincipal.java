@@ -31,7 +31,7 @@ public class EstudiantePrincipal {
 		JButton realizarReclamoBtn = new JButton("Realizar un reclamo");
 		realizarReclamoBtn.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) { 
-    			RealizarReclamo realizarReclamo = new RealizarReclamo();
+    			RealizarReclamo realizarReclamo = new RealizarReclamo(nombreUsuario);
     		}
         });
 		realizarReclamoBtn.setBounds(15, 40, 200, 20);
@@ -40,7 +40,7 @@ public class EstudiantePrincipal {
 		JButton listarReclamosBtn = new JButton("Reclamos");
 		listarReclamosBtn.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) { 
-    			ListarReclamosE listarReclamos = new ListarReclamosE();
+    			ListarReclamosE listarReclamos = new ListarReclamosE(nombreUsuario);
     		}
         });
 		listarReclamosBtn.setBounds(15, 65, 200, 20);
