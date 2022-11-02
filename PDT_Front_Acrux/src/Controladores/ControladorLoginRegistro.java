@@ -65,7 +65,7 @@ public class ControladorLoginRegistro {
 		boolean mailPersonalCorrecto = matcher.find();
 
 		//controlar email académico pertenezca al dominio utec.edu.uy
-		boolean mailUtec = emailInstitucional.contains("utec.edu.uy");
+		boolean mailUtec = emailInstitucional.contains("@utec.edu.uy");
 		
 		//controlar que contraseña contenga letras y números, al menos 8 caracteres
 		String contraseñaLetRegex = ".*[a-zA-Z].*";

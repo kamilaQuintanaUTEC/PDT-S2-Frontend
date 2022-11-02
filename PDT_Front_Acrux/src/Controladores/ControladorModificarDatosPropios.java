@@ -39,7 +39,7 @@ public class ControladorModificarDatosPropios {
 						InitialContext.doLookup("PDT1erAño/TutorBean!com.service.TutorBeanRemote");
 						List<Tutor> tutores = tutorBean.obtenerTodos();
 						for (Tutor t : tutores) {
-							if (t.getUsuario().equals(u)) {
+							if (t.getUsuario().getId().equals(u.getId())) {
 								area = t.getArea();
 								rol = t.getTipoTutor();
 							};
@@ -50,13 +50,31 @@ public class ControladorModificarDatosPropios {
 						InitialContext.doLookup("PDT1erAño/EstudianteBean!com.service.EstudianteBeanRemote");
 						List<Estudiante> estudiantesBack = estudianteBean.obtenerGeneracionSemestre();
 						for (Estudiante e : estudiantesBack) {
-							if (e.getUsuario().equals(u)) {
+							if (e.getUsuario().getId().equals(u.getId())) {
 								añoIngreso = e.getGeneracion();
 							};
 						};
 						break;
 				};
-				Usuario usuario = new Usuario(u.getNombre(),u.getNombre2(),u.getApellido(),u.getApellido2(),u.getDocumento(),u.getFechaNacimiento(),u.getCorreo(),u.getTelefono(),u.getLocalidad(),nombreUsuario,u.getContraseña(),itr,u.getTipoUsuario(),añoIngreso,area,rol,u.getEstado());
+				Usuario usuario = new Usuario(
+						u.getNombre(),
+						u.getNombre2(),
+						u.getApellido(),
+						u.getApellido2(),
+						u.getDocumento(),
+						u.getFechaNacimiento(),
+						u.getCorreo(),
+						u.getTelefono(),
+						u.getLocalidad(),
+						nombreUsuario,
+						u.getContraseña(),
+						itr,
+						u.getTipoUsuario(),
+						añoIngreso,
+						area,
+						rol,
+						u.getEstado()
+				);
 				return usuario;
 			};
 		};
@@ -123,6 +141,7 @@ public class ControladorModificarDatosPropios {
 		    				u.setCorreo(emailPersonal);
 		    				u.setFechaNacimiento(fecNacimiento);
 		    				u.setLocalidad(locDepartamento);
+		    				u.setContraseña(contraseña);
 		    				///ITR
 		    				ITRBeanRemote itrBean = (ITRBeanRemote)
 		    		    			InitialContext.doLookup("PDT1erAño/ITRBean!com.service.ITRBeanRemote");
@@ -137,13 +156,23 @@ public class ControladorModificarDatosPropios {
 		    					case "TUTOR":
 		    						TutorBeanRemote tutorBean = (TutorBeanRemote)
 		    						InitialContext.doLookup("PDT1erAño/TutorBean!com.service.TutorBeanRemote");
-		    						tutorBean.modificarTutor(area, rol, u.getId());
-		    						break;
+		    						List<Tutor> tutores = tutorBean.obtenerTodos();
+		    						for (Tutor t: tutores) {
+		    							if (t.getUsuario().getId().equals(u.getId())) {
+		    								tutorBean.modificarTutor(area, rol, t.getId());
+				    						break;
+		    							};
+		    						};
 		    					case "ESTUDIANTE":
 		    						EstudianteBeanRemote estudianteBean = (EstudianteBeanRemote)
 		    						InitialContext.doLookup("PDT1erAño/EstudianteBean!com.service.EstudianteBeanRemote");
-		    						estudianteBean.modificarEstudiante(añoIngreso, "", u.getId());
-		    						break;
+		    						List<Estudiante> estudiantes = estudianteBean.obtenerGeneracionSemestre();
+		    						for (Estudiante e: estudiantes) {
+		    							if (e.getUsuario().getId().equals(u.getId())) {
+		    								estudianteBean.modificarEstudiante(añoIngreso, "", e.getId());
+				    						break;
+		    							};
+		    						};
 		    				};
 		    				usuarioBean.actualizarUsuarioAuto(u.getId(),u);
 		    				respuesta +="Cambios hechos.";

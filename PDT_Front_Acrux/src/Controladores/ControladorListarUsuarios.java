@@ -7,7 +7,11 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.swing.JOptionPane;
 
+import com.entities.Estudiante;
+import com.entities.Tutor;
 import com.exception.ServiciosException;
+import com.service.EstudianteBeanRemote;
+import com.service.TutorBeanRemote;
 import com.service.UsuarioBeanRemote;
 
 import Clases.Itr;
@@ -24,6 +28,33 @@ public class ControladorListarUsuarios {
 		List<com.entities.Usuario> uList = usuarioBean.obtenerTodos();
 		for (com.entities.Usuario u : uList) {
 			Itr nuevoI = new Itr(u.getItr().getNombre(),u.getItr().getEstado());
+			
+			String añoIngreso = "";
+			if (u.getTipoUsuario().equals("ESTUDIANTE")) {
+				EstudianteBeanRemote estudianteBean = (EstudianteBeanRemote)
+						InitialContext.doLookup("PDT1erAño/EstudianteBean!com.service.EstudianteBeanRemote");
+				List<Estudiante> estudiantes = estudianteBean.obtenerGeneracionSemestre();
+				for (Estudiante e: estudiantes) {
+					if (e.getUsuario().getId().equals(u.getId())) {
+						añoIngreso = e.getGeneracion();
+					};
+				};
+			};
+			
+			String area = "";
+			String rol = "";
+			if (u.getTipoUsuario().equals("TUTOR")) {
+				TutorBeanRemote tutorBean = (TutorBeanRemote)
+						InitialContext.doLookup("PDT1erAño/TutorBean!com.service.TutorBeanRemote");
+				List<Tutor> tutores = tutorBean.obtenerTodos();
+				for (Tutor t: tutores) {
+					if (t.getUsuario().getId().equals(u.getId())) {
+						area = t.getArea();
+						rol = t.getTipoTutor();
+					};
+				};
+			};
+			
 			Usuario nuevoU = new Usuario(
 					u.getNombre(),
 					u.getNombre2(),
@@ -38,9 +69,9 @@ public class ControladorListarUsuarios {
 					u.getContraseña(),
 					nuevoI,
 					u.getTipoUsuario(),
-					"",
-					"",
-					"",
+					añoIngreso,
+					area,
+					rol,
 					u.getEstado()
 			);
 			usuarios.add(nuevoU);

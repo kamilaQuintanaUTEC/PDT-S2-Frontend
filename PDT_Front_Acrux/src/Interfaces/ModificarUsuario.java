@@ -120,7 +120,7 @@ public class ModificarUsuario {
 	        	radioBtn.setBounds(x,60,100,30);
 	        	x += 100;
 	        	itrsBtnGr.add(radioBtn);
-	        	if (usuario.getItr().equals(itr)) {
+	        	if (usuario.getItr().getNombre().equals(itr)) {
 	        		radioBtn.setSelected(true);
 	        	};
 	        	frame.getContentPane().add(radioBtn);
@@ -131,29 +131,31 @@ public class ModificarUsuario {
 		}
         
         JTextField añoIngresoCampo = new JTextField(15);
-        if (usuario.getTipoDeUsuario().equals("Estudiante")) {
+        if (usuario.getTipoDeUsuario().equals("ESTUDIANTE")) {
         	JLabel añoIngresoCampoLabel = new JLabel("Año de ingreso");
             añoIngresoCampoLabel.setBounds(750, 65, 110, 20);
             frame.getContentPane().add(añoIngresoCampoLabel);
             añoIngresoCampo.setBounds(850, 65, 130, 20);
+            añoIngresoCampo.setText(usuario.getAñoIngreso());
     		frame.getContentPane().add(añoIngresoCampo);
         };
         
         JTextField areaCampo = new JTextField(15);
         ButtonGroup rolBtnGr = new ButtonGroup();
-        if (usuario.getTipoDeUsuario().equals("Tutor")) {
+        if (usuario.getTipoDeUsuario().equals("TUTOR")) {
         	JLabel areaCampoLabel = new JLabel("Área");
     		areaCampoLabel.setBounds(750, 65, 50, 20);
             frame.getContentPane().add(areaCampoLabel);
             areaCampo.setBounds(850, 65, 130, 20);
+            areaCampo.setText(usuario.getArea());
     		frame.getContentPane().add(areaCampo);
     		
     		JLabel rolLabel = new JLabel("Rol");
     		rolLabel.setBounds(750, 90, 35, 20);
             frame.getContentPane().add(rolLabel);
             LinkedList<String> roles = new LinkedList<String>();
-            roles.add("Encargado");
-            roles.add("Tutor");
+            roles.add("ENCARGADO");
+            roles.add("TUTOR");
             int xr = 750;
             for (String rol : roles) {
             	JRadioButton radioBtn = new JRadioButton(rol);
@@ -161,12 +163,15 @@ public class ModificarUsuario {
             	xr += 100;
             	radioBtn.setBounds(xr,85,100,30);
             	rolBtnGr.add(radioBtn);
+            	if (usuario.getRol().equals(rol)) {
+	        		radioBtn.setSelected(true);
+	        	};
             	frame.getContentPane().add(radioBtn);
             };
         };
         
         JRadioButton validar = new JRadioButton("Validar");
-        if (usuario.getEstado().equals("SIN VALIDAR") || usuario.getEstado().equals("ELIMINADO")) {
+        if (usuario.getEstado().equals("NO VALIDADO") || usuario.getEstado().equals("ELIMINADO")) {
         	validar.setBounds(15, 90, 110, 20);
         	frame.getContentPane().add(validar);
         };
@@ -185,12 +190,12 @@ public class ModificarUsuario {
     			String telefono = telefonoCampo.getText();
     			String locDepartamento = localidadCampo.getText();
     			String itr = itrsBtnGr.getSelection().getActionCommand();
-    			String añoIngreso = usuario.getTipoDeUsuario().equals("Estudiante")? añoIngresoCampo.getText() : "";
-    			String area = usuario.getTipoDeUsuario().equals("Tutor")? areaCampo.getText() : "";
-    			String rol = usuario.getTipoDeUsuario().equals("Tutor")? rolBtnGr.getSelection().getActionCommand() : "";
-    			String estado = (usuario.getEstado().equals("SIN VALIDAR") || usuario.getEstado().equals("ELIMINADO")) && validar.isSelected() ? "VALIDADO" : usuario.getEstado();
+    			String añoIngreso = usuario.getTipoDeUsuario().equals("ESTUDIANTE")? añoIngresoCampo.getText() : "";
+    			String area = usuario.getTipoDeUsuario().equals("TUTOR")? areaCampo.getText() : "";
+    			String rol = usuario.getTipoDeUsuario().equals("TUTOR")? rolBtnGr.getSelection().getActionCommand() : "";
+    			String estado = (usuario.getEstado().equals("NO VALIDADO") || usuario.getEstado().equals("ELIMINADO")) && validar.isSelected() ? "VALIDADO" : usuario.getEstado();
     			 
-    			if (primerNombre.equals("") || segundoNombre.equals("") || primerApellido.equals("") || segundoApellido.equals("") || cedula.equals("") || fecNacimiento.equals("") || emailPersonal.equals("") || telefono.equals("") || locDepartamento.equals("") || (usuario.getTipoDeUsuario().equals("Estudiante") && añoIngreso.equals("")) || (usuario.getTipoDeUsuario().equals("Tutor") && area.equals(""))) {
+    			if (primerNombre.equals("") || segundoNombre.equals("") || primerApellido.equals("") || segundoApellido.equals("") || cedula.equals("") || fecNacimiento.equals("") || emailPersonal.equals("") || telefono.equals("") || locDepartamento.equals("") || (usuario.getTipoDeUsuario().equals("ESTUDIANTE") && añoIngreso.equals("")) || (usuario.getTipoDeUsuario().equals("TUTOR") && area.equals(""))) {
     				JOptionPane.showMessageDialog(null, "Completar todos los datos requeridos");
     			} else {
     				String respuesta = ControladorModificarUsuario.modificar(usuario.getEmailInstitucional(),primerNombre,segundoNombre,primerApellido,segundoApellido,cedula,fecNacimiento,emailPersonal,telefono,locDepartamento,itr,añoIngreso,area,rol,estado);

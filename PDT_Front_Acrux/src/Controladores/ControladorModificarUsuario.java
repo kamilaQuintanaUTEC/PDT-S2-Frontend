@@ -8,7 +8,9 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.swing.JOptionPane;
 
+import com.entities.Estudiante;
 import com.entities.ITR;
+import com.entities.Tutor;
 import com.entities.Usuario;
 import com.exception.ServiciosException;
 import com.service.EstudianteBeanRemote;
@@ -80,13 +82,23 @@ public class ControladorModificarUsuario {
 		    					case "TUTOR":
 		    						TutorBeanRemote tutorBean = (TutorBeanRemote)
 		    						InitialContext.doLookup("PDT1erAño/TutorBean!com.service.TutorBeanRemote");
-		    						tutorBean.modificarTutor(area, rol, u.getId());
-		    						break;
+		    						List<Tutor> tutores = tutorBean.obtenerTodos();
+		    						for (Tutor t: tutores) {
+		    							if (t.getUsuario().getId().equals(u.getId())) {
+		    								tutorBean.modificarTutor(area, rol, t.getId());
+				    						break;
+		    							};
+		    						};
 		    					case "ESTUDIANTE":
 		    						EstudianteBeanRemote estudianteBean = (EstudianteBeanRemote)
 		    						InitialContext.doLookup("PDT1erAño/EstudianteBean!com.service.EstudianteBeanRemote");
-		    						estudianteBean.modificarEstudiante(añoIngreso, "", u.getId());
-		    						break;
+		    						List<Estudiante> estudiantes = estudianteBean.obtenerGeneracionSemestre();
+		    						for (Estudiante e: estudiantes) {
+		    							if (e.getUsuario().getId().equals(u.getId())) {
+		    								estudianteBean.modificarEstudiante(añoIngreso, "", e.getId());
+				    						break;
+		    							};
+		    						};	
 		    				};
 		    				u.setEstado(estado);
 		    				usuarioBean.actualizarUsuarioAdministrador(u.getId(),u);
