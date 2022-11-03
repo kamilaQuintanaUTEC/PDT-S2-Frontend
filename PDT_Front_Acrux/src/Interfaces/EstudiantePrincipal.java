@@ -49,7 +49,7 @@ public class EstudiantePrincipal {
 		JButton reportesBtn = new JButton("Reportes");
 		reportesBtn.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) { 
-    			Reportes reportes = new Reportes();
+    			Reportes reportes = new Reportes(nombreUsuario);
     		}
         });
 		reportesBtn.setBounds(15, 90, 200, 20);

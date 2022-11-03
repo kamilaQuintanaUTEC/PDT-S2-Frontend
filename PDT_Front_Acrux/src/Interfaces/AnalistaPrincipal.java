@@ -17,7 +17,7 @@ public class AnalistaPrincipal {
 	private void initialize(String nombreUsuario) {
 
 		JFrame frame = new JFrame();
-		frame.setBounds(50, 100, 250, 200);
+		frame.setBounds(50, 100, 250, 220);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -77,7 +77,7 @@ public class AnalistaPrincipal {
     			ReportesAT reportes = new ReportesAT();
     		}
         });
-		reportesBtn.setBounds(15, 115, 200, 20);
+		reportesBtn.setBounds(15, 140, 200, 20);
 		frame.getContentPane().add(reportesBtn);
 		
 		frame.setTitle("ANALISTA - PRINCIPAL");
