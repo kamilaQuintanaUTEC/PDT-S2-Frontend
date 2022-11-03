@@ -57,7 +57,7 @@ public class ControladorListarEstados {
 		try {
 			List<EstadoReclamo> estadosBack = estadoBean.obtenerTodos();
 			for (EstadoReclamo estReclamo : estadosBack) {
-				if (estReclamo.getNombre().equals(nombre)) {
+				if (estReclamo.getNombre().equals(estado.getNombre())) {
 					Long idEstReclamo = estReclamo.getId();
 					estadoBean.actualizar(idEstReclamo, nombre);
 					estadoBean.modificarEstado(idEstReclamo, "ACTIVO");

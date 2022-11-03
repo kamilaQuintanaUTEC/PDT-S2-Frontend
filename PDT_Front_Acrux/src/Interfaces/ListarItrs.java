@@ -26,7 +26,7 @@ public class ListarItrs {
 
 		JFrame frame = new JFrame();
 		frame.setBounds(50, 100, 1100, 400);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JPanel lista = new JPanel();

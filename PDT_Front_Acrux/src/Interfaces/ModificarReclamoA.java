@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import com.exception.ServiciosException;
@@ -30,7 +31,7 @@ public class ModificarReclamoA {
 		
 		JFrame frame = new JFrame();
 		frame.setBounds(50, 100, 800, 700);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel tituloLabel = new JLabel(reclamo.getTitulo());
@@ -38,39 +39,41 @@ public class ModificarReclamoA {
         frame.getContentPane().add(tituloLabel);
         
         JLabel fechaHoraLabel = new JLabel(reclamo.getFechaHora());
-        fechaHoraLabel.setBounds(500, 15, 110, 20);
+        fechaHoraLabel.setBounds(500, 15, 200, 20);
         frame.getContentPane().add(fechaHoraLabel);
         
-        JLabel descripcionLabel = new JLabel(reclamo.getDescripcion());
-        descripcionLabel.setBounds(15, 40, 300, 300);
+        JTextArea descripcionLabel = new JTextArea(reclamo.getDescripcion());
+        descripcionLabel.setEditable(false);
+        descripcionLabel.setBounds(15, 40, 300, 150);
+        descripcionLabel.setLineWrap(true);
         frame.getContentPane().add(descripcionLabel);
         
         JLabel nombreEventoVMELabel = new JLabel("VME: " + reclamo.getNombreEventoVME());
-        nombreEventoVMELabel.setBounds(15, 325, 200, 20);
+        nombreEventoVMELabel.setBounds(15, 175, 200, 20);
         frame.getContentPane().add(nombreEventoVMELabel);
         
         JLabel nombreActividadAPELabel = new JLabel("APE: " + reclamo.getNombreActividadAPE());
-        nombreActividadAPELabel.setBounds(15, 350, 200, 20);
+        nombreActividadAPELabel.setBounds(15, 200, 200, 20);
         frame.getContentPane().add(nombreActividadAPELabel);
         
         JLabel semestreLabel = new JLabel("Semestre: " + reclamo.getSemestre());
-        semestreLabel.setBounds(15, 375, 110, 20);
+        semestreLabel.setBounds(15, 225, 110, 20);
         frame.getContentPane().add(semestreLabel);
         
         JLabel fechaLabel = new JLabel("Fecha del evento: " + reclamo.getFecha());
-        fechaLabel.setBounds(200, 375, 170, 20);
+        fechaLabel.setBounds(200, 225, 170, 20);
         frame.getContentPane().add(fechaLabel);
         
         JLabel docenteLabel = new JLabel("Docente: " + reclamo.getDocente());
-        docenteLabel.setBounds(420, 375, 110, 20);
+        docenteLabel.setBounds(420, 225, 110, 20);
         frame.getContentPane().add(docenteLabel);
         
         JLabel creditosLabel = new JLabel("Créditos: " + reclamo.getCreditos());
-        creditosLabel.setBounds(15, 400, 110, 20);
+        creditosLabel.setBounds(15, 250, 110, 20);
         frame.getContentPane().add(creditosLabel);
         
         JLabel estadoLabel = new JLabel("Estado");
-        estadoLabel.setBounds(200, 400, 110, 20);
+        estadoLabel.setBounds(200, 250, 110, 20);
         frame.getContentPane().add(estadoLabel);
         LinkedList<Estado> estados;
         ButtonGroup estadoBtnGr = new ButtonGroup();
@@ -83,26 +86,28 @@ public class ModificarReclamoA {
 		        	JRadioButton radioBtn = new JRadioButton(estado.getNombre());
 		        	radioBtn.setActionCommand(estado.getNombre());
 		        	x += 115;
-		        	radioBtn.setBounds(x,400,100,30);
+		        	radioBtn.setBounds(x,250,100,30);
 		        	radioBtn.addActionListener(new ActionListener() {
 		        		public void actionPerformed(ActionEvent e) {
 
-		        			try {
-								boolean modificado = ControladorModificarReclamoA.modificarEstado(reclamo,estado.getNombre());
-								if (modificado) {
-									reclamo.setEstado(estado);
-									JOptionPane.showMessageDialog(null, "Se modificó el estado");
-								} else {
+		        			int confirmacion = JOptionPane.showConfirmDialog(null, "¿Confirma los cambios?");
+		        	        if (confirmacion == 0) {
+		        	        	try {
+									boolean modificado = ControladorModificarReclamoA.modificarEstado(reclamo,estado.getNombre());
+									if (modificado) {
+										reclamo.setEstado(estado);
+										JOptionPane.showMessageDialog(null, "Se modificó el estado");
+									} else {
+										JOptionPane.showMessageDialog(null, "No se pudo modificar el estado");
+									};
+			        			} catch (NamingException e1) {
 									JOptionPane.showMessageDialog(null, "No se pudo modificar el estado");
+									e1.printStackTrace();
+								} catch (ServiciosException e1) {
+									JOptionPane.showMessageDialog(null, "No se pudo modificar el estado");
+									e1.printStackTrace();
 								};
-		        			} catch (NamingException e1) {
-								JOptionPane.showMessageDialog(null, "No se pudo modificar el estado");
-								e1.printStackTrace();
-							} catch (ServiciosException e1) {
-								JOptionPane.showMessageDialog(null, "No se pudo modificar el estado");
-								e1.printStackTrace();
-							}
-
+		        	        };
 		        		};
 		            });
 		        	estadoBtnGr.add(radioBtn);
@@ -115,37 +120,41 @@ public class ModificarReclamoA {
 		}
 		
         JLabel accionLabel = new JLabel("Acción");
-        accionLabel.setBounds(15, 425, 110, 20);
+        accionLabel.setBounds(15, 275, 110, 20);
         frame.getContentPane().add(accionLabel);
         
-        JTextField accionCampo = new JTextField(); //set length of the text  
-        accionCampo.setBounds(15, 450, 500, 100);
+        JTextArea accionCampo = new JTextArea();
+        accionCampo.setLineWrap(true);
+        accionCampo.setBounds(15, 300, 500, 100);
 		frame.getContentPane().add(accionCampo);
         
 		JButton modificarBtn = new JButton("AGREGAR ACCIÓN");
 		modificarBtn.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
 
-				String accion = accionCampo.getText();
-    			
-    			boolean modificado;
-				try {
-					modificado = ControladorModificarReclamoA.agregarAcción(nombreUsuario,accion,reclamo);
-					if (modificado) {
-	    				JOptionPane.showMessageDialog(null, "Se registró la acción");
-	    			} else {
-	    				JOptionPane.showMessageDialog(null, "No se pudo registrar la acción");
-	    			};
-				} catch (NamingException e1) {
-					JOptionPane.showMessageDialog(null, "No se pudo registrar la acción");
-					e1.printStackTrace();
-				} catch (ServiciosException e1) {
-					JOptionPane.showMessageDialog(null, "No se pudo registrar la acción");
-					e1.printStackTrace();
-				};
+    			int confirmacion = JOptionPane.showConfirmDialog(null, "¿Confirma los cambios?");
+    	        if (confirmacion == 0) {
+    	        	String accion = accionCampo.getText();
+        			
+        			boolean modificado;
+    				try {
+    					modificado = ControladorModificarReclamoA.agregarAcción(nombreUsuario,accion,reclamo);
+    					if (modificado) {
+    	    				JOptionPane.showMessageDialog(null, "Se registró la acción");
+    	    			} else {
+    	    				JOptionPane.showMessageDialog(null, "No se pudo registrar la acción");
+    	    			};
+    				} catch (NamingException e1) {
+    					JOptionPane.showMessageDialog(null, "No se pudo registrar la acción");
+    					e1.printStackTrace();
+    				} catch (ServiciosException e1) {
+    					JOptionPane.showMessageDialog(null, "No se pudo registrar la acción");
+    					e1.printStackTrace();
+    				};
+    	        };
     		};
         });
-		modificarBtn.setBounds(15, 475, 130, 20);
+		modificarBtn.setBounds(15, 425, 200, 20);
 		frame.getContentPane().add(modificarBtn);
 		
 		frame.setTitle("MODIFICAR RECLAMO");

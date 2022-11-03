@@ -28,7 +28,7 @@ public class ListarReclamosA {
 
 		JFrame frame = new JFrame();
 		frame.setBounds(50, 100, 1100, 400);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JPanel lista = new JPanel();
@@ -122,7 +122,7 @@ public class ListarReclamosA {
 		String usuario = usuarioCampo.getText();
 		String estado = "";
 		try {
-			estadoBtnGr.getSelection().getActionCommand();
+			estado = estadoBtnGr.getSelection().getActionCommand();
 		} catch (NullPointerException er) {};
 		lista.removeAll();
         frame.remove(lista);

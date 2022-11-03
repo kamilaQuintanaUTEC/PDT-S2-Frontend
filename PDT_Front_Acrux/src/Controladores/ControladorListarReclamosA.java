@@ -17,69 +17,100 @@ import Clases.Reclamo;
 public class ControladorListarReclamosA {
 
 	public static LinkedList<Reclamo> getReclamos(String nombreUsuario, String estadoNombre) throws NamingException {
-
-		ReclamoBeanRemote reclamoBean = (ReclamoBeanRemote)
-				InitialContext.doLookup("PDT1erAño/ReclamoBean!com.service.modulo2.ReclamoBeanRemote");
-		EstudianteBeanRemote estudianteBean = (EstudianteBeanRemote)
-				InitialContext.doLookup("PDT1erAño/EstudianteBean!com.service.EstudianteBeanRemote");
 		
 		LinkedList<Reclamo> reclamos = new LinkedList<Reclamo>();
 		
 		if (!nombreUsuario.equals("")) {
+			Long idEstudiante;
+			EstudianteBeanRemote estudianteBean = (EstudianteBeanRemote)
+							InitialContext.doLookup("PDT1erAño/EstudianteBean!com.service.EstudianteBeanRemote");
 			List<Estudiante> estudiantesBack = estudianteBean.obtenerGeneracionSemestre();
 			for (Estudiante e : estudiantesBack) {
 				if (e.getUsuario().getNombreUsuario().equals(nombreUsuario)) {
-					Long idEstudiante = e.getId();
-					List<com.entities.Reclamo> reclamosBack = reclamoBean.obtenerReclamosEstudiante(idEstudiante);
+					idEstudiante = e.getId();
+					
+					ReclamoBeanRemote reclamoBean = (ReclamoBeanRemote)
+							InitialContext.doLookup("PDT1erAño/ReclamoBean!com.service.modulo2.ReclamoBeanRemote");
+					
+					List<com.entities.Reclamo> reclamosBack = reclamoBean.obtenerTodos();
+
 					for (com.entities.Reclamo r : reclamosBack) {
-						Estado e1 = new Estado(r.getEstado().getNombre(),r.getEstado().getEstado());
-						Reclamo reclamo = new Reclamo(
-								r.getTitulo(),
-								r.getDescripcion(),
-								r.getFechaReclamo().toString(),
-								r.getNombreEvento(),
-								r.getNombreActividad(),
-								Integer.valueOf(r.getSemestre()),
-								r.getFechaEvento().toString(),
-								r.getDocente(),
-								Integer.valueOf(r.getCreditos()),
-								e1,
-								"",
-								"",
-								""
-						);
-						reclamos.add(reclamo);
+						if (r.getEstudiante().getId().equals(idEstudiante)) {
+							Estado e1 = new Estado(r.getEstado().getNombre(),r.getEstado().getEstado());
+							if (!estadoNombre.equals("") && e1.getNombre().equals(estadoNombre)) {
+								Reclamo reclamo = new Reclamo(
+										r.getTitulo(),
+										r.getDescripcion(),
+										r.getFechaReclamo().toString(),
+										r.getNombreEvento(),
+										r.getNombreActividad(),
+										r.getSemestre(),
+										r.getFechaEvento().toString(),
+										r.getDocente(),
+										r.getCreditos(),
+										e1,
+										"","",""
+								);
+								reclamos.add(reclamo);
+							} else if (estadoNombre.equals("")) {
+								Reclamo reclamo = new Reclamo(
+										r.getTitulo(),
+										r.getDescripcion(),
+										r.getFechaReclamo().toString(),
+										r.getNombreEvento(),
+										r.getNombreActividad(),
+										r.getSemestre(),
+										r.getFechaEvento().toString(),
+										r.getDocente(),
+										r.getCreditos(),
+										e1,
+										"","",""
+								);
+								reclamos.add(reclamo);
+							}; 
+						};
 					};
 				};
 			};
 		} else {
+			ReclamoBeanRemote reclamoBean = (ReclamoBeanRemote)
+					InitialContext.doLookup("PDT1erAño/ReclamoBean!com.service.modulo2.ReclamoBeanRemote");
+			
 			List<com.entities.Reclamo> reclamosBack = reclamoBean.obtenerTodos();
+
 			for (com.entities.Reclamo r : reclamosBack) {
 				Estado e1 = new Estado(r.getEstado().getNombre(),r.getEstado().getEstado());
-				Reclamo reclamo = new Reclamo(
-						r.getTitulo(),
-						r.getDescripcion(),
-						r.getFechaReclamo().toString(),
-						r.getNombreEvento(),
-						r.getNombreActividad(),
-						Integer.valueOf(r.getSemestre()),
-						r.getFechaEvento().toString(),
-						r.getDocente(),
-						Integer.valueOf(r.getCreditos()),
-						e1,
-						"",
-						"",
-						""
-				);
-				reclamos.add(reclamo);
-			};
-		};
-		
-		if (!estadoNombre.equals("")) {
-			for (Reclamo r : reclamos) {
-				if (!r.getEstado().getNombre().equals(estadoNombre)) {
-					reclamos.remove(r);
-				};
+				if (!estadoNombre.equals("") && e1.getNombre().equals(estadoNombre)) {
+					Reclamo reclamo = new Reclamo(
+							r.getTitulo(),
+							r.getDescripcion(),
+							r.getFechaReclamo().toString(),
+							r.getNombreEvento(),
+							r.getNombreActividad(),
+							r.getSemestre(),
+							r.getFechaEvento().toString(),
+							r.getDocente(),
+							r.getCreditos(),
+							e1,
+							"","",""
+					);
+					reclamos.add(reclamo);
+				} else if (estadoNombre.equals("")) {
+					Reclamo reclamo = new Reclamo(
+							r.getTitulo(),
+							r.getDescripcion(),
+							r.getFechaReclamo().toString(),
+							r.getNombreEvento(),
+							r.getNombreActividad(),
+							r.getSemestre(),
+							r.getFechaEvento().toString(),
+							r.getDocente(),
+							r.getCreditos(),
+							e1,
+							"","",""
+					);
+					reclamos.add(reclamo);
+				}; 
 			};
 		};
 

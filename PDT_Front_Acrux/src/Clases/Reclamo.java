@@ -7,10 +7,10 @@ public class Reclamo {
 	private String fechaHora;
 	private String nombreEventoVME;
 	private String nombreActividadAPE;
-	private int semestre;
+	private String semestre;
 	private String fecha;
 	private String docente;
-	private int creditos;
+	private String creditos;
 	private Estado estado;
 	private String accion;
 	private String accionFec;
@@ -64,10 +64,10 @@ public class Reclamo {
 	public void setNombreActividadAPE(String nombreActividadAPE) {
 		this.nombreActividadAPE = nombreActividadAPE;
 	}
-	public int getSemestre() {
+	public String getSemestre() {
 		return semestre;
 	}
-	public void setSemestre(int semestre) {
+	public void setSemestre(String semestre) {
 		this.semestre = semestre;
 	}
 	public String getFecha() {
@@ -82,10 +82,10 @@ public class Reclamo {
 	public void setDocente(String docente) {
 		this.docente = docente;
 	}
-	public int getCreditos() {
+	public String getCreditos() {
 		return creditos;
 	}
-	public void setCreditos(int creditos) {
+	public void setCreditos(String creditos) {
 		this.creditos = creditos;
 	}
 	public Estado getEstado() {
@@ -95,7 +95,7 @@ public class Reclamo {
 		this.estado = estado;
 	}
 	public Reclamo(String titulo, String descripcion, String fechaHora, String nombreEventoVME,
-			String nombreActividadAPE, int semestre, String fecha, String docente, int creditos, Estado estado,
+			String nombreActividadAPE, String semestre, String fecha, String docente, String creditos, Estado estado,
 			String accion, String accionFec, String accionAnalista) {
 		super();
 		this.titulo = titulo;

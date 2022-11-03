@@ -41,7 +41,7 @@ public class ModificarDatosPropios {
 
 		JFrame frame = new JFrame();
 		frame.setBounds(50, 100, 1100, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
         JLabel primerNombreCampoLabel = new JLabel("Primer nombre");

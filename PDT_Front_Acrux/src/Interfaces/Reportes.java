@@ -22,7 +22,7 @@ public class Reportes {
 
 		JFrame frame = new JFrame();
 		frame.setBounds(50, 100, 250, 100);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JButton verBtn = new JButton("VER ESCOLARIDAD");

@@ -18,8 +18,8 @@ public class Principal {
         	ControladorListarItrs.agregar("Inicial");
         	///
         	
-        	///USUARIO ADMIN: admin@utec.edu.uy || 12345aA!
-        	ControladorLoginRegistro.registro("Admin", "", "", "", "", "01/01/1111", "admin@admin.com", "", "", "admin@utec.edu.uy", "12345aA!", "Inicial", "ANALISTA", "", "", "");
+        	///USUARIO ADMIN: admin@utec.edu.uy || 12345aaa
+        	ControladorLoginRegistro.registro("Admin", "", "", "", "", "01/01/1111", "admin@admin.com", "", "", "admin@utec.edu.uy", "12345aaa", "Inicial", "ANALISTA", "", "", "");
         	ControladorModificarUsuario.activarEstado("admin@utec.edu.uy");
         	////
         	

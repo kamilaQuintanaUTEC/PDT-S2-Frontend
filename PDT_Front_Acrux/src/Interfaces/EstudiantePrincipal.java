@@ -16,7 +16,7 @@ public class EstudiantePrincipal {
 
 		JFrame frame = new JFrame();
 		frame.setBounds(50, 100, 350, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JButton modificarDatosPropiosBtn = new JButton("Modificar Datos Propios");

@@ -35,7 +35,7 @@ public class ListarReclamosE {
 
 		JFrame frame = new JFrame();
 		frame.setBounds(50, 100, 1100, 400);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JPanel lista = new JPanel();
@@ -113,26 +113,30 @@ public class ListarReclamosE {
 	        });
 			
 			JButton eliminarBtn = new JButton("ELIMINAR");
-			eliminarBtn.setBounds(370, y, 130, 20);
+			eliminarBtn.setBounds(505, y, 130, 20);
 			lista.add(eliminarBtn);
 			eliminarBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					boolean eliminado;
-					try {
-						eliminado = ControladorListarReclamosE.eliminar(reclamo);
-						if (eliminado) {
-							JOptionPane.showMessageDialog(null, "Reclamo eliminado");
-							render(nombreUsuario,estadoBtnGr,lista,frame);
-						} else {
+					int confirmacion = JOptionPane.showConfirmDialog(null, "¿Confirma los cambios?");
+			        // 0=yes, 1=no, 2=cancel
+			        if (confirmacion == 0) {
+			        	boolean eliminado;
+						try {
+							eliminado = ControladorListarReclamosE.eliminar(reclamo);
+							if (eliminado) {
+								JOptionPane.showMessageDialog(null, "Reclamo eliminado");
+								render(nombreUsuario,estadoBtnGr,lista,frame);
+							} else {
+								JOptionPane.showMessageDialog(null, "No se pudo eliminar");
+							};
+						} catch (NamingException e1) {
 							JOptionPane.showMessageDialog(null, "No se pudo eliminar");
+							e1.printStackTrace();
+						} catch (ServiciosException e1) {
+							JOptionPane.showMessageDialog(null, "No se pudo eliminar");
+							e1.printStackTrace();
 						};
-					} catch (NamingException e1) {
-						JOptionPane.showMessageDialog(null, "No se pudo eliminar");
-						e1.printStackTrace();
-					} catch (ServiciosException e1) {
-						JOptionPane.showMessageDialog(null, "No se pudo eliminar");
-						e1.printStackTrace();
-					};
+			        };
 	    		};
 	        });
 			
@@ -145,12 +149,12 @@ public class ListarReclamosE {
 	public static void render (String nombreUsuario, ButtonGroup estadoBtnGr, JPanel lista, JFrame frame) {
 		String estado = "";
 		try {
-			estadoBtnGr.getSelection().getActionCommand();
+			estado = estadoBtnGr.getSelection().getActionCommand();
 		} catch (NullPointerException er) {};
 		lista.removeAll();
         frame.remove(lista);
         frame.repaint();
-        LinkedList<Reclamo> reclamos;
+        LinkedList<Reclamo> reclamos = new LinkedList<Reclamo>();
         try {
         	reclamos = ControladorListarReclamosE.getReclamos(nombreUsuario,estado);
         	listado(reclamos,nombreUsuario,estadoBtnGr,lista,frame);

@@ -13,7 +13,7 @@ import com.service.modulo2.ReclamoBeanRemote;
 
 public class ControladoModificarReclamoE {
 
-	public static boolean modificar(String nombreUsuario, String tituloInicial, String titulo, String descripcion, String nombreEventoVME, String nombreActividadAPE, int semestre, String fecha, String docente, int creditos) throws NamingException, ServiciosException {
+	public static boolean modificar(String nombreUsuario, String tituloInicial, String titulo, String descripcion, String nombreEventoVME, String nombreActividadAPE, String semestre, String fecha, String docente, String creditos) throws NamingException, ServiciosException {
 		
 		Long idEstudiante;
 		EstudianteBeanRemote estudianteBean = (EstudianteBeanRemote)
@@ -25,17 +25,17 @@ public class ControladoModificarReclamoE {
 				
 				ReclamoBeanRemote reclamoBean = (ReclamoBeanRemote)
 						InitialContext.doLookup("PDT1erAño/ReclamoBean!com.service.modulo2.ReclamoBeanRemote");
-				List<Reclamo> reclamos = reclamoBean.obtenerReclamosEstudiante(idEstudiante);
+				List<Reclamo> reclamos = reclamoBean.obtenerTodos();
 				for (Reclamo r : reclamos) {
-					if (r.getTitulo().equals(tituloInicial)) {
+					if (r.getEstudiante().getId().equals(idEstudiante) && r.getTitulo().equals(tituloInicial)) {
 						r.setTitulo(titulo);
 						r.setDescripcion(descripcion);
 						r.setNombreEvento(nombreEventoVME);
 						r.setNombreActividad(nombreActividadAPE);
-						r.setSemestre(Integer.valueOf(semestre).toString());
+						r.setSemestre(semestre);
 						r.setFechaEvento(fecha);
 						r.setDocente(docente);
-						r.setCreditos(Integer.valueOf(creditos).toString());
+						r.setCreditos(creditos );
 						reclamoBean.actualizarReclamo(r.getId(), r);
 						return true;
 					};

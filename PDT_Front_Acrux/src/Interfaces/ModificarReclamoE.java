@@ -11,6 +11,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import com.exception.ServiciosException;
@@ -30,7 +31,7 @@ public class ModificarReclamoE {
 
 		JFrame frame = new JFrame();
 		frame.setBounds(50, 100, 1100, 600);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
         
         JLabel tituloRegistroLabel = new JLabel("REGISTRO");
@@ -101,8 +102,9 @@ public class ModificarReclamoE {
 		JLabel descripcionCampoLabel = new JLabel("Descripción *");
 		descripcionCampoLabel.setBounds(15, 115, 110, 20);
         frame.getContentPane().add(descripcionCampoLabel);
-        JTextField descripcionCampo = new JTextField(); //set length of the text  
-        descripcionCampo.setBounds(15, 140, 500, 300);
+        JTextArea descripcionCampo = new JTextArea(); //set length of the text  
+        descripcionCampo.setBounds(15, 140, 500, 150);
+        descripcionCampo.setLineWrap(true);
         descripcionCampo.setText(reclamo.getDescripcion());
 		frame.getContentPane().add(descripcionCampo);
         
@@ -114,10 +116,10 @@ public class ModificarReclamoE {
     			String descripcion = descripcionCampo.getText();
     			String nombreEventoVME = nombreVMECampo.getText();
     			String nombreActividadAPE = nombreAPECampo.getText();
-    			int semestre = Integer.parseInt(semestreCampo.getText());
+    			String semestre = semestreCampo.getText();
     			String fecha = fechaCampo.getText();
     			String docente = docenteCampo.getText();
-    			int creditos = Integer.parseInt(creditosCampo.getText());
+    			String creditos = creditosCampo.getText();
     			
     			if (titulo.equals("") || descripcion.equals("")) {
     				JOptionPane.showMessageDialog(null, "Completar todos los datos requeridos");
@@ -141,7 +143,7 @@ public class ModificarReclamoE {
 
     		}
         });
-		enviarBtn.setBounds(15, 465, 130, 20);
+		enviarBtn.setBounds(15, 315, 130, 20);
 		frame.getContentPane().add(enviarBtn);
 		
 		frame.setTitle("REALIZAR UN RECLAMO");

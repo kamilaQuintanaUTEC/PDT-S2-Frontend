@@ -11,6 +11,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import com.exception.ServiciosException;
@@ -28,7 +29,7 @@ public class RealizarReclamo {
 
 		JFrame frame = new JFrame();
 		frame.setBounds(50, 100, 1100, 600);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
         
         JLabel tituloRegistroLabel = new JLabel("REGISTRO");
@@ -73,6 +74,7 @@ public class RealizarReclamo {
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         JFormattedTextField fechaCampo = new JFormattedTextField(df); //set length of the text  
         fechaCampo.setBounds(115, 90, 130, 20);
+        fechaCampo.setText("00/00/0000");
 		frame.getContentPane().add(fechaCampo);
 		
 		JLabel docenteCampoLabel = new JLabel("Docente");
@@ -92,8 +94,9 @@ public class RealizarReclamo {
 		JLabel descripcionCampoLabel = new JLabel("Descripción *");
 		descripcionCampoLabel.setBounds(15, 115, 110, 20);
         frame.getContentPane().add(descripcionCampoLabel);
-        JTextField descripcionCampo = new JTextField(); //set length of the text  
+        JTextArea descripcionCampo = new JTextArea(); //set length of the text  
         descripcionCampo.setBounds(15, 140, 500, 300);
+        descripcionCampo.setLineWrap(true);
 		frame.getContentPane().add(descripcionCampo);
         
 		JButton enviarBtn = new JButton("ENVIAR");
@@ -104,10 +107,10 @@ public class RealizarReclamo {
     			String descripcion = descripcionCampo.getText();
     			String nombreEventoVME = nombreVMECampo.getText();
     			String nombreActividadAPE = nombreAPECampo.getText();
-    			int semestre = Integer.parseInt(semestreCampo.getText());
+    			String semestre = semestreCampo.getText();
     			String fecha = fechaCampo.getText();
     			String docente = docenteCampo.getText();
-    			int creditos = Integer.parseInt(creditosCampo.getText());
+    			String creditos = creditosCampo.getText();
     			
     			if (titulo.equals("") || descripcion.equals("")) {
     				JOptionPane.showMessageDialog(null, "Completar todos los datos requeridos");

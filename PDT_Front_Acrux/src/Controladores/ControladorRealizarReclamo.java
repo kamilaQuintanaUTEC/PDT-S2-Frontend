@@ -19,10 +19,10 @@ public class ControladorRealizarReclamo {
 			String descripcion,
 			String nombreEventoVME,
 			String nombreActividadAPE,
-			int semestre,
+			String semestre,
 			String fecha,
 			String docente,
-			int creditos
+			String creditos
 	) throws NamingException, ServiciosException {
 
 		Reclamo reclamo = new Reclamo();
@@ -30,10 +30,10 @@ public class ControladorRealizarReclamo {
 		reclamo.setDescripcion(descripcion);
 		reclamo.setNombreEvento(nombreEventoVME);
 		reclamo.setNombreActividad(nombreActividadAPE);
-		reclamo.setSemestre(Integer.valueOf(semestre).toString());
+		reclamo.setSemestre(semestre);
 		reclamo.setFechaEvento(fecha);
 		reclamo.setDocente(docente);
-		reclamo.setCreditos(Integer.valueOf(creditos).toString());
+		reclamo.setCreditos(creditos);
 		
 		String respuesta = "";
 		
