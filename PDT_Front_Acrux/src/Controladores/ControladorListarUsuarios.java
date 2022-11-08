@@ -29,7 +29,7 @@ public class ControladorListarUsuarios {
 		for (com.entities.Usuario u : uList) {
 			Itr nuevoI = new Itr(u.getItr().getNombre(),u.getItr().getEstado());
 			
-			String añoIngreso = "";
+			String añoIngreso = " ";
 			if (u.getTipoUsuario().equals("ESTUDIANTE")) {
 				EstudianteBeanRemote estudianteBean = (EstudianteBeanRemote)
 						InitialContext.doLookup("PDT1erAño/EstudianteBean!com.service.EstudianteBeanRemote");
@@ -41,8 +41,8 @@ public class ControladorListarUsuarios {
 				};
 			};
 			
-			String area = "";
-			String rol = "";
+			String area = " ";
+			String rol = " ";
 			if (u.getTipoUsuario().equals("TUTOR")) {
 				TutorBeanRemote tutorBean = (TutorBeanRemote)
 						InitialContext.doLookup("PDT1erAño/TutorBean!com.service.TutorBeanRemote");

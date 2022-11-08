@@ -95,7 +95,7 @@ public class ControladorModificarUsuario {
 		    						List<Estudiante> estudiantes = estudianteBean.obtenerGeneracionSemestre();
 		    						for (Estudiante e: estudiantes) {
 		    							if (e.getUsuario().getId().equals(u.getId())) {
-		    								estudianteBean.modificarEstudiante(añoIngreso, "", e.getId());
+		    								estudianteBean.modificarEstudiante(añoIngreso, " ", e.getId());
 				    						break;
 		    							};
 		    						};	

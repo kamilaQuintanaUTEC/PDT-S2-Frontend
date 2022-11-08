@@ -30,9 +30,9 @@ public class ControladorModificarDatosPropios {
 		for (com.entities.Usuario u : usuariosBack) {
 			if (u.getNombreUsuario().equals(nombreUsuario)) {
 				Itr itr = new Itr(u.getItr().getNombre(),u.getItr().getEstado());
-				String area = "";
-				String rol = "";
-				String añoIngreso = "";
+				String area = " ";
+				String rol = " ";
+				String añoIngreso = " ";
 				switch (u.getTipoUsuario()) {
 					case "TUTOR":
 						TutorBeanRemote tutorBean = (TutorBeanRemote)
@@ -169,7 +169,7 @@ public class ControladorModificarDatosPropios {
 		    						List<Estudiante> estudiantes = estudianteBean.obtenerGeneracionSemestre();
 		    						for (Estudiante e: estudiantes) {
 		    							if (e.getUsuario().getId().equals(u.getId())) {
-		    								estudianteBean.modificarEstudiante(añoIngreso, "", e.getId());
+		    								estudianteBean.modificarEstudiante(añoIngreso, " ", e.getId());
 				    						break;
 		    							};
 		    						};

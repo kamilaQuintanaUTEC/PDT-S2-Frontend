@@ -100,10 +100,10 @@ public class ControladorLoginRegistro {
 			usuario.setCorreo(emailPersonal);
 			usuario.setContraseña(contraseña);
 			usuario.setFechaNacimiento(fecNacimiento);
-			usuario.setGenero("");
+			usuario.setGenero(" ");
 			usuario.setLocalidad(locDepartamento);
 			usuario.setTipoUsuario(tipoDeUsuario);
-			usuario.setOtroTipoUsuario("");
+			usuario.setOtroTipoUsuario(" ");
 			usuario.setEstado("NO VALIDADO"); 
 			
 			Long idItr = null;

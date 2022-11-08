@@ -38,7 +38,7 @@ public class ControladorListarItrs {
     	ITR itr = new ITR();
 		
 		itr.setNombre(nombre);
-		itr.setDepartamento("");
+		itr.setDepartamento(" ");
 		itr.setEstado("ACTIVO");
 		
 		try {
@@ -62,7 +62,7 @@ public class ControladorListarItrs {
 			for (ITR i : itrsBack) {
 				if (i.getNombre().equals(itr.getNombre())) {
 					Long idITR = i.getId();
-					itrBean.actualizar(idITR, nombre, "", "ACTIVO");
+					itrBean.actualizar(idITR, nombre, " ", "ACTIVO");
 					return true;
 				}
 			};
@@ -86,7 +86,7 @@ public class ControladorListarItrs {
 			for (ITR i : itrsBack) {
 				if (i.getNombre().equals(itr.getNombre())) {
 					Long idITR = i.getId();
-					itrBean.actualizar(idITR, i.getNombre(), "", "ELIMINADO");
+					itrBean.actualizar(idITR, i.getNombre(), " ", "ELIMINADO");
 					return true;
 				}
 			};
@@ -110,7 +110,7 @@ public class ControladorListarItrs {
 			for (ITR i : itrsBack) {
 				if (i.getNombre().equals(itr.getNombre())) {
 					Long idITR = i.getId();
-					itrBean.actualizar(idITR, i.getNombre(), "", "ACTIVO");
+					itrBean.actualizar(idITR, i.getNombre(), " ", "ACTIVO");
 					return true;
 				}
 			};
