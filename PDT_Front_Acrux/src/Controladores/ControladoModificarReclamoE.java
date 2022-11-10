@@ -30,12 +30,36 @@ public class ControladoModificarReclamoE {
 					if (r.getEstudiante().getId().equals(idEstudiante) && r.getTitulo().equals(tituloInicial)) {
 						r.setTitulo(titulo);
 						r.setDescripcion(descripcion);
-						r.setNombreEvento(nombreEventoVME);
-						r.setNombreActividad(nombreActividadAPE);
-						r.setSemestre(semestre);
-						r.setFechaEvento(fecha);
-						r.setDocente(docente);
-						r.setCreditos(creditos );
+						if (nombreEventoVME.equals("")) {
+							r.setNombreEvento(" ");
+						} else {
+							r.setNombreEvento(nombreEventoVME);
+						};
+						if (nombreActividadAPE.equals("")) {
+							r.setNombreActividad(" ");
+						} else {
+							r.setNombreActividad(nombreActividadAPE);
+						};
+						if (semestre.equals("")) {
+							r.setSemestre(" ");
+						} else {
+							r.setSemestre(semestre);
+						};
+						if (fecha.equals("")) {
+							r.setFechaEvento(" ");
+						} else {
+							r.setFechaEvento(fecha);
+						};
+						if (docente.equals("")) {
+							r.setDocente(" ");
+						} else {
+							r.setDocente(docente);
+						};
+						if (creditos.equals("")) {
+							r.setCreditos(" ");
+						} else {
+							r.setCreditos(creditos);
+						};
 						reclamoBean.actualizarReclamo(r.getId(), r);
 						return true;
 					};

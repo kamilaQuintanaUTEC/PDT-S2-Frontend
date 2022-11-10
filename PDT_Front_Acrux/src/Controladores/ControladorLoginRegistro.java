@@ -65,7 +65,8 @@ public class ControladorLoginRegistro {
 		boolean mailPersonalCorrecto = matcher.find();
 
 		//controlar email académico pertenezca al dominio utec.edu.uy
-		boolean mailUtec = emailInstitucional.contains("@utec.edu.uy");
+		boolean mailUtec = emailInstitucional.contains("utec.edu.uy") && emailInstitucional.contains("@");
+		
 		
 		//controlar que contraseña contenga letras y números, al menos 8 caracteres
 		String contraseñaLetRegex = ".*[a-zA-Z].*";
@@ -94,7 +95,7 @@ public class ControladorLoginRegistro {
 			usuario.setApellido(primerApellido);
 			usuario.setApellido2(segundoApellido);
 			usuario.setDocumento(cedula);
-			usuario.setDepartamento("");
+			usuario.setDepartamento(" ");
 			usuario.setTelefono(telefono);
 			usuario.setNombreUsuario(emailInstitucional);
 			usuario.setCorreo(emailPersonal);
@@ -125,10 +126,12 @@ public class ControladorLoginRegistro {
 						AnalistaBeanRemote analistaBean = (AnalistaBeanRemote)
 						InitialContext.doLookup("PDT1erAño/AnalistaBean!com.service.AnalistaBeanRemote");
 						Analista a = analistaBean.crear(idU);
+						break;
 					case "TUTOR": 
 						TutorBeanRemote tutorBean = (TutorBeanRemote)
 						InitialContext.doLookup("PDT1erAño/TutorBean!com.service.TutorBeanRemote");
 						Tutor tutor = tutorBean.crear(idU, area, rol);
+						break;
 					case "ESTUDIANTE": 
 						EstudianteBeanRemote estudianteBean = (EstudianteBeanRemote)
 						InitialContext.doLookup("PDT1erAño/EstudianteBean!com.service.EstudianteBeanRemote");

@@ -89,6 +89,7 @@ public class ControladorModificarUsuario {
 				    						break;
 		    							};
 		    						};
+		    						break;
 		    					case "ESTUDIANTE":
 		    						EstudianteBeanRemote estudianteBean = (EstudianteBeanRemote)
 		    						InitialContext.doLookup("PDT1erAño/EstudianteBean!com.service.EstudianteBeanRemote");
@@ -99,6 +100,8 @@ public class ControladorModificarUsuario {
 				    						break;
 		    							};
 		    						};	
+		    					default:
+		    						break;
 		    				};
 		    				u.setEstado(estado);
 		    				usuarioBean.actualizarUsuarioAdministrador(u.getId(),u);

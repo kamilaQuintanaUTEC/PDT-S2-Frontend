@@ -57,7 +57,7 @@ public class ListarUsuarios {
         	radioBtn.setBounds(x,15,100,30);
         	radioBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent event) {
-			        if (usuariosBtnGr.getSelection().getActionCommand().equals("Estudiante")) {
+			        if (usuariosBtnGr.getSelection().getActionCommand().equals("ESTUDIANTE")) {
 			        	añoIngresoCampoLabel.show();
 			        	añoIngresoCampo.show();
 			        } else {

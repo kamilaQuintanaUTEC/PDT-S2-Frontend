@@ -28,12 +28,36 @@ public class ControladorRealizarReclamo {
 		Reclamo reclamo = new Reclamo();
 		reclamo.setTitulo(titulo);
 		reclamo.setDescripcion(descripcion);
-		reclamo.setNombreEvento(nombreEventoVME);
-		reclamo.setNombreActividad(nombreActividadAPE);
-		reclamo.setSemestre(semestre);
-		reclamo.setFechaEvento(fecha);
-		reclamo.setDocente(docente);
-		reclamo.setCreditos(creditos);
+		if (nombreEventoVME.equals("")) {
+			reclamo.setNombreEvento(" ");
+		} else {
+			reclamo.setNombreEvento(nombreEventoVME);
+		};
+		if (nombreActividadAPE.equals("")) {
+			reclamo.setNombreActividad(" ");
+		} else {
+			reclamo.setNombreActividad(nombreActividadAPE);
+		};
+		if (semestre.equals("")) {
+			reclamo.setSemestre(" ");
+		} else {
+			reclamo.setSemestre(semestre);
+		};
+		if (fecha.equals("")) {
+			reclamo.setFechaEvento(" ");
+		} else {
+			reclamo.setFechaEvento(fecha);
+		};
+		if (docente.equals("")) {
+			reclamo.setDocente(" ");
+		} else {
+			reclamo.setDocente(docente);
+		};
+		if (creditos.equals("")) {
+			reclamo.setCreditos(" ");
+		} else {
+			reclamo.setCreditos(creditos);
+		};
 		
 		String respuesta = "";
 		

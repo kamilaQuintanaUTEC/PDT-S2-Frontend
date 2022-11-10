@@ -95,23 +95,26 @@ public class ListarEstados {
     			JButton guardarBtn = new JButton("GUARDAR");
     			guardarBtn.addActionListener(new ActionListener() {
     	    		public void actionPerformed(ActionEvent e) {
-    	    			boolean modificado;
-						try {
-							modificado = ControladorListarEstados.modificar(est, eCampo.getText());
-							if (modificado) {
-	    	    				est.setNombre(eCampo.getText());
-	    	    				JOptionPane.showMessageDialog(null, "Modificado");
-	    	    			} else {
-	    	    				eCampo.setText(est.getNombre());
-	    	    				JOptionPane.showMessageDialog(null, "No se pudo modificar");
-	    	    			};
-						} catch (NamingException e1) {
-							eCampo.setText(est.getNombre());
-							JOptionPane.showMessageDialog(null, "No se pudo modificar");
-							e1.printStackTrace();
-						}
-    	    			
-    	    		}
+    	    			if (eCampo.getText().equals("")) {
+    	    				JOptionPane.showMessageDialog(null, "No se puede modificar a nombre vacío");
+    	    			} else {
+    	    				boolean modificado;
+    						try {
+    							modificado = ControladorListarEstados.modificar(est, eCampo.getText());
+    							if (modificado) {
+    	    	    				est.setNombre(eCampo.getText());
+    	    	    				JOptionPane.showMessageDialog(null, "Modificado");
+    	    	    			} else {
+    	    	    				eCampo.setText(est.getNombre());
+    	    	    				JOptionPane.showMessageDialog(null, "No se pudo modificar");
+    	    	    			};
+    						} catch (NamingException e1) {
+    							eCampo.setText(est.getNombre());
+    							JOptionPane.showMessageDialog(null, "No se pudo modificar");
+    							e1.printStackTrace();
+    						};
+    	    			};
+    	    		};
     	        });
     			guardarBtn.setBounds(235, y, 130, 20);
     			lista.add(guardarBtn);
@@ -181,20 +184,23 @@ public class ListarEstados {
         	JButton guardarBtn = new JButton("GUARDAR");
     		guardarBtn.addActionListener(new ActionListener() {
         		public void actionPerformed(ActionEvent e) {
-        			boolean agregado;
-					try {
-						agregado = ControladorListarEstados.agregar(eCampo.getText());
-						if (agregado) {
-		    				rerender(lista, estado);
-		    			} else {
-		    				JOptionPane.showMessageDialog(null, "No se pudo agregar");
-		    			};
-					} catch (NamingException e1) {
-						JOptionPane.showMessageDialog(null, "No se pudo agregar");
-						e1.printStackTrace();
-					}
-	    			
-        		}
+        			if (eCampo.getText().equals("")) {
+	    				JOptionPane.showMessageDialog(null, "No se puede agregar con nombre vacío");
+	    			} else {
+	        			boolean agregado;
+						try {
+							agregado = ControladorListarEstados.agregar(eCampo.getText());
+							if (agregado) {
+			    				rerender(lista, estado);
+			    			} else {
+			    				JOptionPane.showMessageDialog(null, "No se pudo agregar");
+			    			};
+						} catch (NamingException e1) {
+							JOptionPane.showMessageDialog(null, "No se pudo agregar");
+							e1.printStackTrace();
+						};
+	    			};
+        		};
             });
     		guardarBtn.setBounds(235, y, 130, 20);
     		lista.add(guardarBtn);

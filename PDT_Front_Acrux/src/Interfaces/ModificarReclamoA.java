@@ -135,22 +135,26 @@ public class ModificarReclamoA {
     			int confirmacion = JOptionPane.showConfirmDialog(null, "¿Confirma los cambios?");
     	        if (confirmacion == 0) {
     	        	String accion = accionCampo.getText();
-        			
-        			boolean modificado;
-    				try {
-    					modificado = ControladorModificarReclamoA.agregarAcción(nombreUsuario,accion,reclamo);
-    					if (modificado) {
-    	    				JOptionPane.showMessageDialog(null, "Se registró la acción");
-    	    			} else {
-    	    				JOptionPane.showMessageDialog(null, "No se pudo registrar la acción");
-    	    			};
-    				} catch (NamingException e1) {
-    					JOptionPane.showMessageDialog(null, "No se pudo registrar la acción");
-    					e1.printStackTrace();
-    				} catch (ServiciosException e1) {
-    					JOptionPane.showMessageDialog(null, "No se pudo registrar la acción");
-    					e1.printStackTrace();
-    				};
+    	        	
+    	        	if (accion.equals("")) {
+    	        		JOptionPane.showMessageDialog(null, "No se puede registrar una acción vacía");
+    	        	} else {
+    	        		boolean modificado;
+        				try {
+        					modificado = ControladorModificarReclamoA.agregarAcción(nombreUsuario,accion,reclamo);
+        					if (modificado) {
+        	    				JOptionPane.showMessageDialog(null, "Se registró la acción");
+        	    			} else {
+        	    				JOptionPane.showMessageDialog(null, "No se pudo registrar la acción");
+        	    			};
+        				} catch (NamingException e1) {
+        					JOptionPane.showMessageDialog(null, "No se pudo registrar la acción");
+        					e1.printStackTrace();
+        				} catch (ServiciosException e1) {
+        					JOptionPane.showMessageDialog(null, "No se pudo registrar la acción");
+        					e1.printStackTrace();
+        				};
+    	        	};
     	        };
     		};
         });

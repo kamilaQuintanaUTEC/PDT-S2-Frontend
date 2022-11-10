@@ -55,6 +55,8 @@ public class ControladorModificarDatosPropios {
 							};
 						};
 						break;
+					default:
+						break;
 				};
 				Usuario usuario = new Usuario(
 						u.getNombre(),
@@ -163,6 +165,7 @@ public class ControladorModificarDatosPropios {
 				    						break;
 		    							};
 		    						};
+		    						break;
 		    					case "ESTUDIANTE":
 		    						EstudianteBeanRemote estudianteBean = (EstudianteBeanRemote)
 		    						InitialContext.doLookup("PDT1erAño/EstudianteBean!com.service.EstudianteBeanRemote");
@@ -173,6 +176,7 @@ public class ControladorModificarDatosPropios {
 				    						break;
 		    							};
 		    						};
+		    						break;
 		    				};
 		    				usuarioBean.actualizarUsuarioAuto(u.getId(),u);
 		    				respuesta +="Cambios hechos.";
