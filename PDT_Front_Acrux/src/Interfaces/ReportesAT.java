@@ -38,44 +38,48 @@ public class ReportesAT {
 			usuarios = ControladorListarUsuarios.getUsuarios();
 			int y = 15;
 	        for (Usuario usuario : usuarios) {
-	        	JLabel usuarioLabel = new JLabel(usuario.getPrimerNombre() + " " + usuario.getPrimerApellido());
-	        	usuarioLabel.setBounds(15, y, 210, 20);
-	            frame.getContentPane().add(usuarioLabel);
-	            JButton verBtn = new JButton("VER ESCOLARIDAD");
-	    		verBtn.addActionListener(new ActionListener() {
-	        		public void actionPerformed(ActionEvent e) {
-	        			
-	        			File file = new File("escolaridad.txt");
-	        	        FileWriter fr = null;
-	        	        try {
-	        	            fr = new FileWriter(file);
-	        	            fr.write("ESCOLARIDAD: "+ usuario.getCedula() + " - " + usuario.getPrimerNombre() + " " + usuario.getPrimerApellido());
-	        	        } catch (IOException e1) {
-	        	            e1.printStackTrace();
-	        	            JOptionPane.showMessageDialog(null, "No se pudo crear el archivo");
-	        	        }finally{
-	        	            //close resources
-	        	            try {
-	        	                fr.close();
-	        	            } catch (IOException e1) {
-	        	                e1.printStackTrace();
-	        	                JOptionPane.showMessageDialog(null, "No se pudo cerrar el archivo");
-	        	            }
-	        	        };
-	        	        
-	        			try {
-		       			     File path = new File ("escolaridad.txt");
-		       			     Desktop.getDesktop().open(path);
-		       			} catch (IOException ex) {
-		       			     ex.printStackTrace();
-		       			     JOptionPane.showMessageDialog(null, "No se pudo abrir el archivo");
-		       			};
-	        			
-	        		}
-	            });
-	    		verBtn.setBounds(200, y, 130, 20);
-	    		frame.getContentPane().add(verBtn);
-	    		y += 25;
+	        	if(usuario.getTipoDeUsuario().equals("ESTUDIANTE")) {
+	        		
+		        	JLabel usuarioLabel = new JLabel(usuario.getPrimerNombre() + " " + usuario.getPrimerApellido());
+		        	usuarioLabel.setBounds(15, y, 210, 20);
+		            frame.getContentPane().add(usuarioLabel);
+		            JButton verBtn = new JButton("VER ESCOLARIDAD");
+		    		verBtn.addActionListener(new ActionListener() {
+		        		public void actionPerformed(ActionEvent e) {
+		        			
+		        			File file = new File("escolaridad.txt");
+		        	        FileWriter fr = null;
+		        	        try {
+		        	            fr = new FileWriter(file);
+		        	            fr.write("ESCOLARIDAD: "+ usuario.getCedula() + " - " + usuario.getPrimerNombre() + " " + usuario.getPrimerApellido());
+		        	        } catch (IOException e1) {
+		        	            e1.printStackTrace();
+		        	            JOptionPane.showMessageDialog(null, "No se pudo crear el archivo");
+		        	        }finally{
+		        	            //close resources
+		        	            try {
+		        	                fr.close();
+		        	            } catch (IOException e1) {
+		        	                e1.printStackTrace();
+		        	                JOptionPane.showMessageDialog(null, "No se pudo cerrar el archivo");
+		        	            }
+		        	        };
+		        	        
+		        			try {
+			       			     File path = new File ("escolaridad.txt");
+			       			     Desktop.getDesktop().open(path);
+			       			} catch (IOException ex) {
+			       			     ex.printStackTrace();
+			       			     JOptionPane.showMessageDialog(null, "No se pudo abrir el archivo");
+			       			};
+		        			
+		        		}
+		            });
+		    		verBtn.setBounds(200, y, 130, 20);
+		    		frame.getContentPane().add(verBtn);
+		    		y += 25;
+	        		
+	        	};
 	        };
 		} catch (NamingException e1) {
 			JOptionPane.showMessageDialog(null, "Error al traer los usuarios");

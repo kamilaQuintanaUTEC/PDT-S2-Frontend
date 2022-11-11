@@ -87,6 +87,9 @@ public class ModificarReclamoA {
 		        	radioBtn.setActionCommand(estado.getNombre());
 		        	x += 115;
 		        	radioBtn.setBounds(x,250,100,30);
+		        	if (reclamo.getEstado().getNombre().equals(estado.getNombre())) {
+		        		radioBtn.setSelected(true);
+		        	};
 		        	radioBtn.addActionListener(new ActionListener() {
 		        		public void actionPerformed(ActionEvent e) {
 

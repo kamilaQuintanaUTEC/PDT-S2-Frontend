@@ -111,5 +111,35 @@ public class ControladorListarReclamosE {
 		};
 		
 		return false;
-	}
-}
+	};
+	
+	
+	public static LinkedList<AccionReclamo> getAcciones(Reclamo reclamo) throws NamingException {
+		
+		LinkedList<AccionReclamo> acciones = new LinkedList<AccionReclamo>();
+		
+		ReclamoBeanRemote reclamoBean = (ReclamoBeanRemote)
+				InitialContext.doLookup("PDT1erAño/ReclamoBean!com.service.modulo2.ReclamoBeanRemote");
+		
+		List<com.entities.Reclamo> reclamosBack = reclamoBean.obtenerTodos();
+		
+		AccionReclamoBeanRemote accionReclamoBean = (AccionReclamoBeanRemote)
+				InitialContext.doLookup("PDT1erAño/AccionReclamoBean!com.service.modulo2.AccionReclamoBeanRemote");
+		
+		for (com.entities.Reclamo r : reclamosBack) {
+			if (r.getTitulo().equals(reclamo.getTitulo()) && r.getDescripcion().equals(reclamo.getDescripcion())) {
+				
+				List<AccionReclamo> accionesBack = accionReclamoBean.obtenerTodos();
+				
+				for (AccionReclamo ar : accionesBack) {
+					if (ar.getReclamo().getId().equals(r.getId())) {
+						acciones.add(ar);
+					};
+				};
+				
+			};
+		};
+		
+		return acciones;
+	};
+};

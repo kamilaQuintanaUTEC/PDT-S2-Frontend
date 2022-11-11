@@ -1,10 +1,18 @@
 package Interfaces;
 
+import java.util.LinkedList;
+
+import javax.naming.NamingException;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+import com.entities.AccionReclamo;
 
 import Clases.Reclamo;
+import Controladores.ControladorListarReclamosE;
 
 public class VerReclamo {
 	public VerReclamo(Reclamo reclamo) {
@@ -58,18 +66,33 @@ public class VerReclamo {
         JLabel estadoLabel = new JLabel("Estado: " + reclamo.getEstado().getNombre());
         estadoLabel.setBounds(200, 250, 200, 20);
         frame.getContentPane().add(estadoLabel);
-		
-        JLabel accionLabel = new JLabel("Acción realizada: " + reclamo.getAccion());
-        accionLabel.setBounds(15, 275, 400, 80);
-        frame.getContentPane().add(accionLabel);
         
-        JLabel accionFecLabel = new JLabel("Fecha: " + reclamo.getAccionFec());
-        accionFecLabel.setBounds(15, 400, 170, 20);
-        frame.getContentPane().add(accionFecLabel);
-        
-        JLabel accionAnalistaLabel = new JLabel("Analista: " + reclamo.getAccionAnalista());
-        accionAnalistaLabel.setBounds(200, 400, 200, 20);
-        frame.getContentPane().add(accionAnalistaLabel);
+        int y = 290;
+        try {
+			LinkedList<AccionReclamo> acciones = ControladorListarReclamosE.getAcciones(reclamo);
+			for (AccionReclamo accionR: acciones) {
+				
+				JTextArea accionLabel = new JTextArea("Acción: " + accionR.getDetalle());
+				accionLabel.setBounds(15, y, 600, 50);
+				accionLabel.setEditable(false);
+				accionLabel.setLineWrap(true);
+		        frame.getContentPane().add(accionLabel);
+		        
+		        JLabel analistaLabel = new JLabel("Analista: " + accionR.getAnalista().getUsuario().getNombre() + accionR.getAnalista().getUsuario().getApellido());
+		        analistaLabel.setBounds(15, y + 48, 220, 20);
+		        frame.getContentPane().add(analistaLabel);
+		        
+		        JLabel fechaALabel = new JLabel("Fecha: " + accionR.getFechaAccion());
+		        fechaALabel.setBounds(230, y + 48, 200, 20);
+		        frame.getContentPane().add(fechaALabel);
+		        
+		        y+=90;
+		        
+			}; 
+		} catch (NamingException e) {
+			JOptionPane.showMessageDialog(null, "No se pudo traer las acciones");
+			e.printStackTrace();
+		};
         
 		frame.setTitle("RECLAMO");
 		frame.setVisible(true);
