@@ -112,8 +112,38 @@ public class RealizarReclamo {
     			String docente = docenteCampo.getText();
     			String creditos = creditosCampo.getText();
     			
+    			//chequeo de formato correcto de semestre TEST
+    			boolean semestreCorrecto = true;
+			    if (!semestre.equals("")) {
+				    try { 
+				        Integer.parseInt(semestre); 
+		    			if (Integer.parseInt(semestre) > 8 || Integer.parseInt(semestre) < 1) {
+		    				semestreCorrecto = false;
+		    			};
+				    } catch(Exception eS) { 
+				    	semestreCorrecto = false; 
+				    };
+			    }; 
+    			
+    			//chequeo de formato correcto de créditos TEST
+    			boolean creditosCorrectos = true;
+    			if (!creditos.equals("")) {
+    				try { 
+    			        Integer.parseInt(creditos); 
+    			        if (Integer.parseInt(creditos) < 0) {
+    	    				creditosCorrectos = false;
+    	    			};
+    			    } catch(Exception eC) { 
+    			    	creditosCorrectos = false; 
+    			    };
+    			};
+    			
     			if (titulo.equals("") || descripcion.equals("")) {
     				JOptionPane.showMessageDialog(null, "Completar todos los datos requeridos");
+    			} else if (!semestreCorrecto) {
+    				JOptionPane.showMessageDialog(null, "Semestre inválido: debe ser un entero del 1-8");
+    			} else if (!creditosCorrectos) {
+    				JOptionPane.showMessageDialog(null, "Créditos inválidos: debe ser un entero mayor a 0");
     			} else {
     				String respuesta;
 					try {
