@@ -29,7 +29,7 @@ public class ReportesAT {
 	private void initialize() {
 
 		JFrame frame = new JFrame();
-		frame.setBounds(50, 100, 1100, 400);
+		frame.setBounds(50, 100, 1100, 900);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		

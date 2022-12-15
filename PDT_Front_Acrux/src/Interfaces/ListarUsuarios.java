@@ -1,5 +1,6 @@
 package Interfaces;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
@@ -30,14 +31,13 @@ public class ListarUsuarios {
 	private void initialize() {
 
 		JFrame frame = new JFrame();
-		frame.setBounds(50, 100, 1100, 400);
+		frame.setBounds(50, 100, 1100, 900);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JPanel lista = new JPanel();
 		lista.setLayout(null);
-		lista.setBounds(15, 90, 700, 700);
-		new JScrollPane(lista);
+		lista.setBounds(15, 90, 1000, 800);
 		frame.getContentPane().add(lista);
 		
 		JLabel añoIngresoCampoLabel = new JLabel("Año de ingreso");
@@ -125,13 +125,13 @@ public class ListarUsuarios {
 		int y = 0;
         for (Usuario usuario : usuarios) {
         	
-        	JLabel usuarioLabel = new JLabel(usuario.getCedula() + ": " + usuario.getPrimerNombre() + " " + usuario.getPrimerApellido());
-        	usuarioLabel.setBounds(0, y, 200, 20);
+        	JLabel usuarioLabel = new JLabel(usuario.getTipoDeUsuario() + ": " + usuario.getCedula() + ": " + usuario.getPrimerNombre() + " " + usuario.getPrimerApellido() + ", Estado: " + usuario.getEstado());
+        	usuarioLabel.setBounds(0, y, 500, 20);
         	lista.add(usuarioLabel);
             
         	if (usuario.getEstado().equals("ELIMINADO")) {
         		JButton reactivarBtn = new JButton("REACTIVAR");
-        		reactivarBtn.setBounds(370, y, 130, 20);
+        		reactivarBtn.setBounds(520, y, 130, 20);
     			lista.add(reactivarBtn);
     			reactivarBtn.addActionListener(new ActionListener() {
     	    		public void actionPerformed(ActionEvent e) {
@@ -159,11 +159,11 @@ public class ListarUsuarios {
     	    			ModificarUsuario modificarUsuario = new ModificarUsuario(usuario);
     	    		}
     	        });
-    			modificarBtn.setBounds(235, y, 130, 20);
+    			modificarBtn.setBounds(520, y, 130, 20);
     			lista.add(modificarBtn);
     			
     			JButton eliminarBtn = new JButton("ELIMINAR");
-    			eliminarBtn.setBounds(370, y, 130, 20);
+    			eliminarBtn.setBounds(670, y, 130, 20);
     			lista.add(eliminarBtn);
     			eliminarBtn.addActionListener(new ActionListener() {
     	    		public void actionPerformed(ActionEvent e) {
