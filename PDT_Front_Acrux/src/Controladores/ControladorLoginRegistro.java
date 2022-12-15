@@ -26,7 +26,9 @@ public class ControladorLoginRegistro {
 		
 		UsuarioBeanRemote usuarioBean = (UsuarioBeanRemote)
 				InitialContext.doLookup("PDT1erAño/UsuarioBean!com.service.UsuarioBeanRemote");
+		System.out.println(usuarioBean.obtenerTodos());
 		List<Usuario> usuarios =usuarioBean.login(nombreUsuario,contraseña);
+		
 		for (Usuario u : usuarios) {
 			if (u.getNombreUsuario().equals(nombreUsuario) && 
 				u.getContraseña().equals(contraseña) &&

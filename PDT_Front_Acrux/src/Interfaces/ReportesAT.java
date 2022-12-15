@@ -75,7 +75,7 @@ public class ReportesAT {
 		        			
 		        		}
 		            });
-		    		verBtn.setBounds(200, y, 130, 20);
+		    		verBtn.setBounds(200, y, 210, 20);
 		    		frame.getContentPane().add(verBtn);
 		    		y += 25;
 	        		

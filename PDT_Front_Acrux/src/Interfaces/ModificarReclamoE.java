@@ -128,6 +128,7 @@ public class ModificarReclamoE {
 					try {
 						modificado = ControladoModificarReclamoE.modificar(nombreUsuario,reclamo.getTitulo(),titulo,descripcion,nombreEventoVME,nombreActividadAPE,semestre,fecha,docente,creditos);
 						if (modificado) {
+							frame.dispose();
 	        				JOptionPane.showMessageDialog(null, "Se registraron los cambios");
 	        			} else {
 	        				JOptionPane.showMessageDialog(null, "No se pudo registrar los cambios");

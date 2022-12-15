@@ -209,9 +209,12 @@ public class ModificarDatosPropios {
     			String rol = usuario.getTipoDeUsuario().equals("TUTOR")? rolBtnGr.getSelection().getActionCommand() : "";
     			 
     			if (primerNombre.equals("") || segundoNombre.equals("") || primerApellido.equals("") || segundoApellido.equals("") || cedula.equals("") || fecNacimiento.equals("") || emailPersonal.equals("") || telefono.equals("") || locDepartamento.equals("") || (usuario.getTipoDeUsuario().equals("ESTUDIANTE") && añoIngreso.equals("")) || (usuario.getTipoDeUsuario().equals("TUTOR") && area.equals("")) && contraseña.equals("")) {
-    				JOptionPane.showMessageDialog(null, "Completar todos los datos requeridos");
+    				JOptionPane.showMessageDialog(null, "Completar todos los datos");
     			} else {
     				String respuesta = ControladorModificarDatosPropios.modificar(usuario.getEmailInstitucional(),primerNombre,segundoNombre,primerApellido,segundoApellido,cedula,fecNacimiento,emailPersonal,telefono,locDepartamento,contraseña,itr,añoIngreso,area,rol);
+    				if (respuesta.equals("Cambios hechos.")) {
+    					frame.dispose();
+    				};
 	    	        JOptionPane.showMessageDialog(null, respuesta);
     			};
 

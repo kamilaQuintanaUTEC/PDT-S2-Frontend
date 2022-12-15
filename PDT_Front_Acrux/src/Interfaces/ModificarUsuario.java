@@ -196,9 +196,12 @@ public class ModificarUsuario {
     			String estado = (usuario.getEstado().equals("NO VALIDADO") || usuario.getEstado().equals("ELIMINADO")) && validar.isSelected() ? "VALIDADO" : usuario.getEstado();
     			 
     			if (primerNombre.equals("") || segundoNombre.equals("") || primerApellido.equals("") || segundoApellido.equals("") || cedula.equals("") || fecNacimiento.equals("") || emailPersonal.equals("") || telefono.equals("") || locDepartamento.equals("") || (usuario.getTipoDeUsuario().equals("ESTUDIANTE") && añoIngreso.equals("")) || (usuario.getTipoDeUsuario().equals("TUTOR") && area.equals(""))) {
-    				JOptionPane.showMessageDialog(null, "Completar todos los datos requeridos");
+    				JOptionPane.showMessageDialog(null, "Completar todos los datos");
     			} else {
     				String respuesta = ControladorModificarUsuario.modificar(usuario.getEmailInstitucional(),primerNombre,segundoNombre,primerApellido,segundoApellido,cedula,fecNacimiento,emailPersonal,telefono,locDepartamento,itr,añoIngreso,area,rol,estado);
+    				if (respuesta.equals("Cambios hechos.")) {
+    					frame.dispose();
+    				};
 	    	        JOptionPane.showMessageDialog(null, respuesta);
     			};
 

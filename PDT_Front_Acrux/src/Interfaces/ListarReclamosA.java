@@ -1,5 +1,6 @@
 package Interfaces;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
@@ -12,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import Clases.Estado;
@@ -34,6 +36,7 @@ public class ListarReclamosA {
 		JPanel lista = new JPanel();
 		lista.setLayout(null);
 		lista.setBounds(15, 100, 700, 700);
+		new JScrollPane(lista);
 		frame.getContentPane().add(lista);
 		
 		JLabel usuarioCampoLabel = new JLabel("Nombre de usuario");

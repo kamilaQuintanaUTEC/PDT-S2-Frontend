@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import com.exception.ServiciosException;
@@ -36,6 +37,7 @@ public class ListarUsuarios {
 		JPanel lista = new JPanel();
 		lista.setLayout(null);
 		lista.setBounds(15, 90, 700, 700);
+		new JScrollPane(lista);
 		frame.getContentPane().add(lista);
 		
 		JLabel añoIngresoCampoLabel = new JLabel("Año de ingreso");

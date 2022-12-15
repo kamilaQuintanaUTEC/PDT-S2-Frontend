@@ -84,8 +84,8 @@ public class LoginRegistro {
 			lineaDivisoria.setBounds(15, 115, 250, 20);
 	        frame.getContentPane().add(lineaDivisoria);
 	        
-	        JLabel tituloRegistroLabel = new JLabel("REGISTRO");
-	        tituloRegistroLabel.setBounds(15, 135, 100, 20);
+	        JLabel tituloRegistroLabel = new JLabel("REGISTRO (todos los campos son requeridos)");
+	        tituloRegistroLabel.setBounds(15, 135, 350, 20);
 	        frame.getContentPane().add(tituloRegistroLabel);
 	        
 	        JLabel primerNombreCampoLabel = new JLabel("Primer nombre");

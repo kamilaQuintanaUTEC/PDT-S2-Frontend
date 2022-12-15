@@ -148,6 +148,9 @@ public class RealizarReclamo {
     				String respuesta;
 					try {
 						respuesta = ControladorRealizarReclamo.agregar(nombreUsuario,titulo,descripcion,nombreEventoVME,nombreActividadAPE,semestre,fecha,docente,creditos);
+						if (respuesta.equals("Reclamo enviado")) {
+							frame.dispose();
+						};
 						JOptionPane.showMessageDialog(null, respuesta);
 					} catch (NamingException e1) {
 						JOptionPane.showMessageDialog(null, "Error al buscar los beans");
